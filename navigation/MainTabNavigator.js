@@ -7,54 +7,54 @@ import MainScreen from '../screens/MainScreen';
 import WelcomeScreen from '../screens/WelcomeScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 
-const MainStack = createStackNavigator({
-  Main: MainScreen,
-});
-
-MainStack.navigationOptions = {
-  tabBarLabel: 'Main',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
-};
-
 const WelcomeStack = createStackNavigator({
-  Welcome: WelcomeScreen,
+    Welcome: WelcomeScreen
 });
 
 WelcomeStack.navigationOptions = {
-  tabBarLabel: 'Welcome',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+    tabBarLabel: 'Welcome',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
+        />
+    )
+};
+
+const MainStack = createStackNavigator({
+    Main: MainScreen
+});
+
+MainStack.navigationOptions = {
+    tabBarLabel: 'Main',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={
+                Platform.OS === 'ios'
+                    ? `ios-information-circle${focused ? '' : '-outline'}`
+                    : 'md-information-circle'
+            }
+        />
+    )
 };
 
 const SettingsStack = createStackNavigator({
-  Settings: SettingsScreen,
+    Settings: SettingsScreen
 });
 
 SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
+    tabBarLabel: 'Settings',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+        />
+    )
 };
 
 export default createBottomTabNavigator({
-  WelcomeStack,
-  MainStack,
-  SettingsStack
+    WelcomeStack,
+    MainStack,
+    SettingsStack
 });

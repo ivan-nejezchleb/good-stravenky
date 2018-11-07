@@ -21,6 +21,7 @@
     "react-navigation": "^2.18.2"
   },
   "devDependencies": {
+    "@gooddata/eslint-config": "^0.1.0",
     "babel-preset-expo": "^5.0.0",
     "jest-expo": "^31.0.0"
   }
