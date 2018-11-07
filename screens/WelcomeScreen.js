@@ -22,9 +22,12 @@ export default class WelcomeScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+  header: {
+    fontWeight: '800',
+    paddingTop: 40
+  },
   container: {
     flex: 1,
-    paddingTop: 15,
-    backgroundColor: '#f0f',
+    paddingTop: 15
   },
 });

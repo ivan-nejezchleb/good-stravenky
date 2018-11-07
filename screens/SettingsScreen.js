@@ -1,10 +1,10 @@
 import React from 'react';
 import {
   TextInput,
-  Text,
   FlatList,
   KeyboardAvoidingView,
-  Button
+  Button,
+  StyleSheet
 } from 'react-native';
 
 import {
@@ -19,6 +19,8 @@ import SettingsService from '../services/settingsService';
 import {
   MealVoucherItem
 } from '../components/MealVoucherItem';
+
+const MAX_SUPPORTED_VALUES = 2;
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -38,6 +40,7 @@ export default class SettingsScreen extends React.Component {
   }
 
   async componentDidMount() {
+    console.log('SettingsScreen mounted');
     const settings = await SettingsService.loadSettings();
     if (settings) {
       this.setState({
@@ -67,12 +70,14 @@ export default class SettingsScreen extends React.Component {
 
   async onSave() {
     const { mealVouchers } = this.state;
+    const {navigate} = this.props.navigation;
     await SettingsService.saveSettings({ mealVouchers });
     await SettingsService.toggleWelcomeScreenShown(true);
+    navigate('Main');
   }
 
   showMealVouchersInput() {
-    return this.state.mealVouchers.length < 4
+    return this.state.mealVouchers.length < MAX_SUPPORTED_VALUES;
   }
 
   onDelete(keyToDelete) {
@@ -83,24 +88,10 @@ export default class SettingsScreen extends React.Component {
 
   renderMealVouchersInput() {
     return (
-      <TextInput style = {
-            {
-              height: 40,
-              borderColor: 'gray',
-              borderWidth: 1,
-              textAlign: 'right'
-            }
-          }
-          onSubmitEditing = {
-            this.onValueConfirmed
-          }
-          onChangeText = {
-            this.onValueChange
-          }
-          value = {
-            this.state.text
-          }
-
+      <TextInput style={styles.valueInput}
+          onSubmitEditing={this.onValueConfirmed}
+          onChangeText={this.onValueChange}
+          value={this.state.text}
           keyboardType="number-pad"
           returnKeyType="done"
       />
@@ -128,3 +119,17 @@ export default class SettingsScreen extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+  valueInput: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    textAlign: 'right'
+  }
+});
+

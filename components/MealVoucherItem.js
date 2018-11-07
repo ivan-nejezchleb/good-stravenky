@@ -16,7 +16,7 @@ export class MealVoucherItem extends React.PureComponent {
     };
 
     static defaultProps = {
-        onDelete: () => {}
+        onDelete: undefined
     };
 
     constructor(props) {
@@ -28,7 +28,15 @@ export class MealVoucherItem extends React.PureComponent {
         const {
             item
         } = this.props;
-        this.props.onDelete(item.key);
+        if (this.props.onDelete) {
+            this.props.onDelete(item.key);
+        }
+    }
+
+    renderDeleteButton() {
+        if(this.props.onDelete) {
+            return (<Button onPress={this.onDelete} title="delete"/>);
+        }
     }
 
     render() {
@@ -38,7 +46,7 @@ export class MealVoucherItem extends React.PureComponent {
                 <Text>
                     { item.value }
                 </Text>
-                <Button onPress={this.onDelete} title="delete"/>
+                {this.renderDeleteButton()}
             </View>
         );
     }
