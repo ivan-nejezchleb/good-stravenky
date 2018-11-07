@@ -1,6 +1,6 @@
 export const SettingsContext = React.createContext({
     welcomeShown: false,
-    setWelcomeShown: () => { this.welcomeShown = true },
+    setWelcomeShown: (newValue = true) => { this.welcomeShown = newValue },
     settings: {
         nominalValues: []
     },

@@ -1,5 +1,9 @@
 {
     "welcome": {
-        "title": "Welcome"
+        "title": "Welcome",
+        "cfgButtonTitle": "Config"
+    },
+    "settings": {
+        "title": "Settings"
     }
 }
