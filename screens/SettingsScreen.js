@@ -3,12 +3,14 @@ import {
   TextInput,
   Text,
   FlatList,
-  KeyboardAvoidingView
+  KeyboardAvoidingView,
+  Button
 } from 'react-native';
 
 import {
   translate
 } from '../services/translationsService';
+import SettingsService from '../services/settingsService';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -23,6 +25,16 @@ export default class SettingsScreen extends React.Component {
     };
     this.onValueChange = this.onValueChange.bind(this);
     this.onValueConfirmed = this.onValueConfirmed.bind(this);
+    this.onSave = this.onSave.bind(this);
+  }
+
+  async componentDidMount() {
+    const settings = await SettingsService.loadSettings();
+    if (settings) {
+      this.setState({
+        mealVouchers: settings.mealVouchers
+      })
+    }
   }
 
   onValueChange(value) {
@@ -42,6 +54,11 @@ export default class SettingsScreen extends React.Component {
         }
       ]
     });
+  }
+
+  async onSave() {
+    const { mealVouchers } = this.state;
+    await SettingsService.saveSettings({ mealVouchers });
   }
 
   render() {
@@ -79,6 +96,7 @@ export default class SettingsScreen extends React.Component {
           keyboardType="number-pad"
           returnKeyType="done"
         />
+        <Button onPress={this.onSave} title={translate('settings.saveButtonTitle')}/>
       </KeyboardAvoidingView>
     );
   }

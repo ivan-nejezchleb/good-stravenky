@@ -4,6 +4,7 @@
         "cfgButtonTitle": "Config"
     },
     "settings": {
-        "title": "Settings"
+        "title": "Settings",
+        "saveButtonTitle": "Save"
     }
 }
