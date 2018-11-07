@@ -8,9 +8,17 @@ import {
 } from 'react-native';
 
 import {
+  v4 as uuid
+} from 'uuid';
+
+import {
   translate
 } from '../services/translationsService';
 import SettingsService from '../services/settingsService';
+
+import {
+  MealVoucherItem
+} from '../components/MealVoucherItem';
 
 export default class SettingsScreen extends React.Component {
   static navigationOptions = {
@@ -26,6 +34,7 @@ export default class SettingsScreen extends React.Component {
     this.onValueChange = this.onValueChange.bind(this);
     this.onValueConfirmed = this.onValueConfirmed.bind(this);
     this.onSave = this.onSave.bind(this);
+    this.onDelete = this.onDelete.bind(this);
   }
 
   async componentDidMount() {
@@ -49,7 +58,7 @@ export default class SettingsScreen extends React.Component {
       mealVouchers: [
         ...this.state.mealVouchers,
         {
-          key: text,
+          key: uuid(),
           value: text
         }
       ]
@@ -59,23 +68,22 @@ export default class SettingsScreen extends React.Component {
   async onSave() {
     const { mealVouchers } = this.state;
     await SettingsService.saveSettings({ mealVouchers });
+    await SettingsService.toggleWelcomeScreenShown(true);
   }
 
-  render() {
-    /* Go ahead and delete ExpoConfigView and replace it with your
-     * content, we just wanted to give you a quick view of your config */
-    const { mealVouchers } = this.state;
+  showMealVouchersInput() {
+    return this.state.mealVouchers.length < 4
+  }
+
+  onDelete(keyToDelete) {
+    this.setState({
+      mealVouchers: this.state.mealVouchers.filter(({key}) => key !== keyToDelete)
+    });
+  }
+
+  renderMealVouchersInput() {
     return (
-      <KeyboardAvoidingView>
-        <FlatList
-          data = { mealVouchers }
-          renderItem = {
-              ({ item }) =>
-                <Text>
-                  { item.value }
-                </Text>}
-        />
-        <TextInput style = {
+      <TextInput style = {
             {
               height: 40,
               borderColor: 'gray',
@@ -95,7 +103,26 @@ export default class SettingsScreen extends React.Component {
 
           keyboardType="number-pad"
           returnKeyType="done"
+      />
+    );
+  }
+
+  render() {
+    const { mealVouchers } = this.state;
+    return (
+      <KeyboardAvoidingView>
+        <FlatList
+          data = { mealVouchers }
+          renderItem = {
+              ({ item }) =>
+                <MealVoucherItem item={item} onDelete={this.onDelete}/>
+          }
         />
+        {
+          this.showMealVouchersInput() ?
+          this.renderMealVouchersInput() :
+          null
+        }
         <Button onPress={this.onSave} title={translate('settings.saveButtonTitle')}/>
       </KeyboardAvoidingView>
     );

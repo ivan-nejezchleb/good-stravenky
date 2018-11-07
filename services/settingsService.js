@@ -10,15 +10,17 @@ async function loadSettings() {
 
 async function saveSettings(settings) {
     const serializedSettings = JSON.stringify(settings);
-    await StorageService.saveData(SETTINGS_DATA_KEY, serializedSettings);
+    return StorageService.saveData(SETTINGS_DATA_KEY, serializedSettings);
 }
 
 async function showWelcomeScreen() {
-    return !StorageService.loadData(WELCOME_SHOWN_DATA_KEY);
+    const serializedValue = await StorageService.loadData(WELCOME_SHOWN_DATA_KEY);
+    return !JSON.parse(serializedValue);
 }
 
 async function toggleWelcomeScreenShown(welcomeShown) {
-    await StorageService.saveData(WELCOME_SHOWN_DATA_KEY, welcomeShown);
+    const serializedValue = JSON.stringify(welcomeShown);
+    return StorageService.saveData(WELCOME_SHOWN_DATA_KEY, serializedValue);
 }
 
 export default {
