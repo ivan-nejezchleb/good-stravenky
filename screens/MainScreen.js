@@ -1,22 +1,12 @@
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    FlatList,
-    KeyboardAvoidingView
-} from 'react-native';
+import { StyleSheet, Text, TextInput, FlatList, KeyboardAvoidingView, Button } from 'react-native';
 
 import SettingsService from '../services/settingsService';
 import { calculateResults } from '../services/calculationService';
 
-import {
-    MealVoucherItem
-} from '../components/MealVoucherItem';
+import { MealVoucherItem } from '../components/MealVoucherItem';
 
-import {
-    CalculationResultsList
-} from '../components/CalculationResultsList';
+import { CalculationResultsList } from '../components/CalculationResultsList';
 import Utils from '../utils/utils';
 
 const styles = StyleSheet.create({
@@ -118,8 +108,10 @@ export default class MainScreen extends React.Component {
 
   render() {
       const { value, mealVouchers } = this.state;
+      const { navigate } = this.props.navigation;
       return (
           <KeyboardAvoidingView style={styles.container}>
+              <Button onPress={() => navigate('Settings')} title="<SETTINGS>" />
               <TextInput
                   style={styles.valueInput}
                   onSubmitEditing={this.onValueConfirmed}
