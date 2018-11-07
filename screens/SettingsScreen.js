@@ -2,7 +2,8 @@ import React from 'react';
 import {
   TextInput,
   Text,
-  FlatList
+  FlatList,
+  KeyboardAvoidingView
 } from 'react-native';
 
 import {
@@ -48,7 +49,7 @@ export default class SettingsScreen extends React.Component {
      * content, we just wanted to give you a quick view of your config */
     const { mealVouchers } = this.state;
     return (
-      <React.Fragment>
+      <KeyboardAvoidingView>
         <FlatList
           data = { mealVouchers }
           renderItem = {
@@ -61,7 +62,8 @@ export default class SettingsScreen extends React.Component {
             {
               height: 40,
               borderColor: 'gray',
-              borderWidth: 1
+              borderWidth: 1,
+              textAlign: 'right'
             }
           }
           onSubmitEditing = {
@@ -77,7 +79,7 @@ export default class SettingsScreen extends React.Component {
           keyboardType="number-pad"
           returnKeyType="done"
         />
-      </React.Fragment>
+      </KeyboardAvoidingView>
     );
   }
 }
