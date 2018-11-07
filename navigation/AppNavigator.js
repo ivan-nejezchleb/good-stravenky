@@ -6,7 +6,7 @@ import MainScreen from '../screens/MainScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { SettingsContext } from '../context/settingsContext';
 
-const RootStackNavigatorWrap = (routingOptions) => {
+const RootStackNavigatorWrap = ({ routingOptions }) => {
     const RootStackNavigator = createStackNavigator({
         Welcome: {
             screen: WelcomeScreen
@@ -28,7 +28,7 @@ export default class RootNavigator extends React.Component {
         return (
             <SettingsContext.Consumer>
                 {({ welcomeShown }) => (
-                    <RootStackNavigatorWrap routingOptions={welcomeShown} />
+                    <RootStackNavigatorWrap routingOptions={({ welcomeShown })} />
                 )}
             </SettingsContext.Consumer>
         );
