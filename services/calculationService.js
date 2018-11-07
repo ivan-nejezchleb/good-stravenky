@@ -11,17 +11,10 @@ function getAllResults(value, mealVouchers) {
     });
 }
 
-function prepareVouchers(mealVouchers) {
-    return mealVouchers.map(voucher => (
-        {
-            ...voucher,
-            value: parseFloat(voucher.value)
-        }
-    )).sort((a, b) => a.value < b.value);
-}
+
 
 export function calculateResults(valueString, mealVouchers) {
     const value = parseFloat(valueString);
 
-    return getAllResults(value, prepareVouchers(mealVouchers));
+    return getAllResults(value, mealVouchers);
 }

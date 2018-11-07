@@ -14,19 +14,54 @@ const styles = StyleSheet.create({
 });
 
 export default class App extends React.Component {
-    state = {
-        isLoadingComplete: false,
-        showWelcomeScreen: true,
-        mealVouchers: [],
-        settingsLoaded: false
-    };
+    constructor(props) {
+        super(props);
+
+        this.setShowWelcomeScreen = this.setShowWelcomeScreen.bind(this);
+        this.setSettings = this.setSettings.bind(this);
+        this.state = {
+            isLoadingComplete: false,
+            settingsContext: {
+                showWelcomeScreen: true,
+                settings: {
+                    mealVouchers: [],
+                },
+                setShowWelcomeScreen: this.setShowWelcomeScreen,
+                setSettings: this.setSettings
+            },
+            settingsLoaded: false
+        };
+    }
+
+    setShowWelcomeScreen(newValue = true) {
+        this.setState({
+            settingsContext: {
+                ...this.state.settingsContext,
+                showWelcomeScreen: newValue
+            }
+        })
+    }
+
+    setSettings(newSettings) {
+        this.setState({
+            settingsContext: {
+                ...this.state.settingsContext,
+                settings: newSettings
+            }
+        });
+    }
 
     async componentDidMount() {
         const showWelcomeScreen = await SettingsService.showWelcomeScreen();
         const settings = await SettingsService.loadSettings();
         this.setState({
-            showWelcomeScreen: showWelcomeScreen === null ? true : showWelcomeScreen,
-            mealVouchers: settings.mealVouchers || [],
+            settingsContext: {
+                ...this.state.settingsContext,
+                showWelcomeScreen: showWelcomeScreen === null ? true : showWelcomeScreen,
+                settings: {
+                    mealVouchers: settings.mealVouchers || [],
+                }
+            },
             settingsLoaded: true
         });
     }
@@ -70,12 +105,7 @@ export default class App extends React.Component {
         }
         return (
             <ErrorBoundary>
-                <SettingsContext.Provider value={({
-                    showWelcomeScreen,
-                    settings: {
-                        mealVouchers
-                    }
-                })}
+                <SettingsContext.Provider value={this.state.settingsContext}
                 >
                     <View style={styles.container}>
                         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}

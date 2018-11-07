@@ -2,8 +2,8 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation';
 
 import WelcomeScreen from '../screens/WelcomeScreen';
-import MainScreen from '../screens/MainScreen';
-import SettingsScreen from '../screens/SettingsScreen';
+import { MainScreenConsumer } from '../screens/MainScreen';
+import { SettingsScreenConsumer } from '../screens/SettingsScreen';
 import { SettingsContext } from '../context/settingsContext';
 
 const RootStackNavigatorWrap = ({ routingOptions }) => {
@@ -12,10 +12,10 @@ const RootStackNavigatorWrap = ({ routingOptions }) => {
             screen: WelcomeScreen
         },
         Main: {
-            screen: MainScreen
+            screen: MainScreenConsumer
         },
         Settings: {
-            screen: SettingsScreen
+            screen: SettingsScreenConsumer
         }
     }, {
         initialRouteName: routingOptions.showWelcomeScreen ? 'Welcome' : 'Main'

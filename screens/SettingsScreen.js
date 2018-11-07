@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { TextInput, FlatList, KeyboardAvoidingView, Button, StyleSheet } from 'react-native';
 
 import { v4 as uuid } from 'uuid';
@@ -32,26 +33,26 @@ export default class SettingsScreen extends React.Component {
         title: translate('settings.title')
     };
 
+    static propTypes = {
+        mealVouchers: PropTypes.array.isRequired
+    }
+
+    static defaultProps = {
+        setSettings: ()=>{},
+        setShowWelcomeScreen: () => {}
+    }
+
     constructor(props) {
         super(props);
         this.state = {
             text: '',
-            mealVouchers: []
+            mealVouchers: [...this.props.mealVouchers]
         };
         this.onValueChange = this.onValueChange.bind(this);
         this.onValueConfirmed = this.onValueConfirmed.bind(this);
         this.onSave = this.onSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
-    }
-
-    async componentDidMount() {
-        console.log('SettingsScreen mounted');
-        const settings = await SettingsService.loadSettings();
-        if (settings) {
-            this.setState({
-                mealVouchers: settings.mealVouchers
-            });
-        }
+        this.onReset = this.onReset.bind(this);
     }
 
     onValueChange(value) {
@@ -82,16 +83,19 @@ export default class SettingsScreen extends React.Component {
         });
     }
 
-    async onSave(setSettings, setShowWelcomeScreen) {
+    async onSave() {
         const { mealVouchers } = this.state;
-        const { navigate } = this.props.navigation;
         await SettingsService.saveSettings({ mealVouchers });
         await SettingsService.toggleShowWelcomeScreen(false);
         // context sync
-        setSettings({ mealVouchers });
-        setShowWelcomeScreen(false);
+        this.props.setSettings({ mealVouchers });
+        this.props.setShowWelcomeScreen(false); // will force new navigation
+    }
 
-        navigate('Main');
+    async onReset() {
+        await SettingsService.toggleShowWelcomeScreen(true);
+        // context sync
+        this.props.setShowWelcomeScreen(true);
     }
 
     onDelete(keyToDelete) {
@@ -118,27 +122,42 @@ export default class SettingsScreen extends React.Component {
     }
 
     render() {
+        const { mealVouchers } = this.state;
+        return (
+            <KeyboardAvoidingView>
+                <FlatList
+                    data={mealVouchers}
+                    renderItem={
+                        ({ item }) =>
+                            <MealVoucherItem item={item} onDelete={this.onDelete} />
+                    }
+                />
+                {
+                    this.showMealVouchersInput() ?
+                        this.renderMealVouchersInput() :
+                        null
+                }
+                <Button onPress={() => this.onSave()} title={translate('settings.saveButtonTitle')} />
+                <Button onPress={() => this.onReset()} title="Reset Welcome" />
+            </KeyboardAvoidingView>
+        );
+    }
+}
+
+export class SettingsScreenConsumer extends React.Component {
+    render() {
         return (
             <SettingsContext.Consumer>
-                {({ mealVouchers, setSettings, setShowWelcomeScreen }) => (
-                    <KeyboardAvoidingView>
-                        <FlatList
-                            data={mealVouchers}
-                            renderItem={
-                                ({ item }) =>
-                                    <MealVoucherItem item={item} onDelete={this.onDelete} />
-                            }
-                        />
-                        {
-                            this.showMealVouchersInput() ?
-                                this.renderMealVouchersInput() :
-                                null
-                        }
-                        <Button onPress={() => this.onSave(setSettings, setShowWelcomeScreen)} title={translate('settings.saveButtonTitle')} />
-                    </KeyboardAvoidingView>
+                {({ settings, setSettings, setShowWelcomeScreen }) => (
+                    <SettingsScreen
+                        {...this.props}
+                        mealVouchers={settings.mealVouchers}
+                        setSettings={setSettings}
+                        setShowWelcomeScreen={setShowWelcomeScreen}
+                    />
                 )}
             </SettingsContext.Consumer>
         );
-  }
+    }
 }
 

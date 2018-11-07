@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, TextInput, FlatList, KeyboardAvoidingView, Button } from 'react-native';
 
-import SettingsService from '../services/settingsService';
 import { calculateResults } from '../services/calculationService';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
+import { SettingsContext } from '../context/settingsContext';
 
 import { CalculationResultsList } from '../components/CalculationResultsList';
 import Utils from '../utils/utils';
@@ -23,6 +23,13 @@ const styles = StyleSheet.create({
     }
 });
 
+function prepareVouchers(mealVouchers) {
+    return mealVouchers.map(voucher => ({
+        ...voucher,
+        value: parseFloat(voucher.value)
+    })).sort((a, b) => a.value < b.value);
+}
+
 export default class MainScreen extends React.Component {
   static navigationOptions = {
       header: null
@@ -33,7 +40,6 @@ export default class MainScreen extends React.Component {
       this.state = {
           value: '',
           calcualtionResults: [],
-          mealVouchers: [],
           calculating: false
       };
 
@@ -41,15 +47,6 @@ export default class MainScreen extends React.Component {
 
       this.onValueChange = this.onValueChange.bind(this);
       this.onValueConfirmed = this.onValueConfirmed.bind(this);
-  }
-
-  async componentDidMount() {
-      const settings = await SettingsService.loadSettings();
-      if (settings) {
-          this.setState({
-              mealVouchers: settings.mealVouchers
-          });
-      }
   }
 
   onValueChange(value) {
@@ -60,10 +57,8 @@ export default class MainScreen extends React.Component {
 
   onValueConfirmed() {
       const {
-          value,
-          mealVouchers
+          value
       } = this.state;
-
       if (!Utils.isValidMealVoucherValue(value)) {
           this.setState({
               value: ''
@@ -74,7 +69,7 @@ export default class MainScreen extends React.Component {
       this.setState({
           calculating: true
       }, () => {
-          const calcualtionResults = calculateResults(value, mealVouchers);
+          const calcualtionResults = calculateResults(value, prepareVouchers(mealVouchers));
           setTimeout(() => {
               this.setResult(calcualtionResults);
           }, 3000);
@@ -99,7 +94,6 @@ export default class MainScreen extends React.Component {
       const {
           calculating
       } = this.state;
-      console.log(calculating);
       if (calculating) {
           return (<Text>Kalkulujuuuuu</Text>);
       }
@@ -107,28 +101,43 @@ export default class MainScreen extends React.Component {
   }
 
   render() {
-      const { value, mealVouchers } = this.state;
+      const { value } = this.state;
       const { navigate } = this.props.navigation;
       return (
-          <KeyboardAvoidingView style={styles.container}>
-              <Button onPress={() => navigate('Settings')} title="<SETTINGS>" />
-              <TextInput
-                  style={styles.valueInput}
-                  onSubmitEditing={this.onValueConfirmed}
-                  onChangeText={this.onValueChange}
-                  value={value}
-                  keyboardType="number-pad"
-                  returnKeyType="done"
-              />
-              <FlatList
-                  data={mealVouchers}
-                  renderItem={
-                      ({ item }) =>
-                          <MealVoucherItem item={item} />
-                  }
-              />
-              {this.renderResults()}
-          </KeyboardAvoidingView>
+            <KeyboardAvoidingView style={styles.container}>
+                <Button onPress={() => navigate('Settings')} title="<SETTINGS>" />
+                <TextInput
+                    style={styles.valueInput}
+                    onSubmitEditing={this.onValueConfirmed}
+                    onChangeText={this.onValueChange}
+                    value={value}
+                    keyboardType="number-pad"
+                    returnKeyType="done"
+                />
+                <FlatList
+                    data={this.props.mealVouchers}
+                    renderItem={
+                        ({ item }) =>
+                            <MealVoucherItem item={item} />
+                    }
+                />
+                {this.renderResults()}
+            </KeyboardAvoidingView>
       );
   }
+}
+
+export class MainScreenConsumer extends React.Component {
+    render() {
+        return (
+            <SettingsContext.Consumer>
+                {({ settings }) => (
+                    <MainScreen
+                        {...this.props}
+                        mealVouchers={settings.mealVouchers}
+                    />
+                )}
+            </SettingsContext.Consumer>
+        );
+    }
 }
