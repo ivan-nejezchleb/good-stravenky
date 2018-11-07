@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Stravenky",
-    "description": "A very interesting project.",
+    "description": "Aplikace pro výpočet stravenek potřebných pro zaplacení vašeho oběda.",
     "slug": "Stravenky",
     "privacy": "public",
     "sdkVersion": "31.0.0",
