@@ -1,10 +1,10 @@
 import React from 'react';
 
 export const SettingsContext = React.createContext({
-    welcomeShown: false,
-    setWelcomeShown: (newValue = true) => { this.welcomeShown = newValue; },
+    showWelcomeScreen: false,
+    setShowWelcomeScreen: (newValue = true) => { this.showWelcomeScreen = newValue; },
     settings: {
-        nominalValues: []
+        mealVouchers: []
     },
     setSettings: (newSettings) => { this.settings = newSettings; }
 });

@@ -18,7 +18,7 @@ const RootStackNavigatorWrap = ({ routingOptions }) => {
             screen: SettingsScreen
         }
     }, {
-        initialRouteName: routingOptions.welcomeShown ? 'Main' : 'Welcome'
+        initialRouteName: routingOptions.showWelcomeScreen ? 'Welcome' : 'Main'
     });
     return <RootStackNavigator />;
 };
@@ -27,8 +27,8 @@ export default class RootNavigator extends React.Component {
     render() {
         return (
             <SettingsContext.Consumer>
-                {({ welcomeShown }) => (
-                    <RootStackNavigatorWrap routingOptions={({ welcomeShown })} />
+                {({ showWelcomeScreen }) => (
+                    <RootStackNavigatorWrap routingOptions={({ showWelcomeScreen })} />
                 )}
             </SettingsContext.Consumer>
         );

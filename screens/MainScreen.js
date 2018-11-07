@@ -38,12 +38,9 @@ export default class MainScreen extends React.Component {
 
     this.onValueChange = this.onValueChange.bind(this);
     this.onValueConfirmed = this.onValueConfirmed.bind(this);
-    // this.onSave = this.onSave.bind(this);
-    // this.onDelete = this.onDelete.bind(this);
   }
 
   async componentDidMount() {
-    console.log('MainScreen mounted');
     const settings = await SettingsService.loadSettings();
     if (settings) {
       this.setState({

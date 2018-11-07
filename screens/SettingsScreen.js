@@ -72,7 +72,8 @@ export default class SettingsScreen extends React.Component {
     const { mealVouchers } = this.state;
     const {navigate} = this.props.navigation;
     await SettingsService.saveSettings({ mealVouchers });
-    await SettingsService.toggleWelcomeScreenShown(true);
+    await SettingsService.toggleShowWelcomeScreen(false);
+    // TODO setup context
     navigate('Main');
   }
 

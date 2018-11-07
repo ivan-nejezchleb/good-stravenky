@@ -1,7 +1,7 @@
 import StorageService from './storageService';
 
 const SETTINGS_DATA_KEY = 'settings';
-const WELCOME_SHOWN_DATA_KEY = 'welcome_shown';
+const SHOW_WELCOME_SCREEN_DATA_KEY = 'show_welcome_screen';
 
 async function loadSettings() {
     const serializedSettings = await StorageService.loadData(SETTINGS_DATA_KEY);
@@ -14,18 +14,18 @@ async function saveSettings(settings) {
 }
 
 async function showWelcomeScreen() {
-    const serializedValue = await StorageService.loadData(WELCOME_SHOWN_DATA_KEY);
-    return !JSON.parse(serializedValue);
+    const serializedValue = await StorageService.loadData(SHOW_WELCOME_SCREEN_DATA_KEY);
+    return JSON.parse(serializedValue);
 }
 
-async function toggleWelcomeScreenShown(welcomeShown) {
-    const serializedValue = JSON.stringify(welcomeShown);
-    return StorageService.saveData(WELCOME_SHOWN_DATA_KEY, serializedValue);
+async function toggleShowWelcomeScreen(shouldShowWelcomeScreen) {
+    const serializedValue = JSON.stringify(shouldShowWelcomeScreen);
+    return StorageService.saveData(SHOW_WELCOME_SCREEN_DATA_KEY, serializedValue);
 }
 
 export default {
     loadSettings,
     saveSettings,
     showWelcomeScreen,
-    toggleWelcomeScreenShown
+    toggleShowWelcomeScreen
 };
