@@ -12,8 +12,8 @@ import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
 import {
-  t
-} from '../services/translations';
+  translate
+} from '../services/translationsService';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -46,7 +46,7 @@ export default class HomeScreen extends React.Component {
 
             <Text style={styles.getStartedText}>
               {
-                t('welcome.title')
+                translate('welcome.title')
               }
             </Text>
           </View>
