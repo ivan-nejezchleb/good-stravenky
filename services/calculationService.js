@@ -1,13 +1,14 @@
 function getAllResults(value, mealVouchers) {
-    return mealVouchers.map(mealVoucher => {
+    return mealVouchers.map((mealVoucher) => {
         const count = value / mealVoucher.value;
-        const rest = value - count * mealVoucher.value;
-        if (rest )
-        return {
-            value: mealVoucher.value,
-            count,
+        const rest = value - (count * mealVoucher.value);
+        if (rest) {
+            return {
+                value: mealVoucher.value,
+                count
+            };
         }
-    })
+    });
 }
 
 function prepareVouchers(mealVouchers) {
@@ -19,7 +20,7 @@ function prepareVouchers(mealVouchers) {
     )).sort((a, b) => a.value < b.value);
 }
 
-export function calculateResults(valueString, mealVouchers, strategies) {
+export function calculateResults(valueString, mealVouchers) {
     const value = parseFloat(valueString);
 
     return getAllResults(value, prepareVouchers(mealVouchers));

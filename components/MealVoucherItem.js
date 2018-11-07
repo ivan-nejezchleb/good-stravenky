@@ -11,7 +11,7 @@ export class MealVoucherItem extends React.PureComponent {
         item: PropTypes.shape({
             key: PropTypes.string.isRequired,
             value: PropTypes.string.isRequired
-        }),
+        }).isRequired,
         onDelete: PropTypes.func
     };
 
@@ -34,9 +34,10 @@ export class MealVoucherItem extends React.PureComponent {
     }
 
     renderDeleteButton() {
-        if(this.props.onDelete) {
-            return (<Button onPress={this.onDelete} title="delete"/>);
+        if (this.props.onDelete) {
+            return (<Button onPress={this.onDelete} title="delete" />);
         }
+        return null;
     }
 
     render() {

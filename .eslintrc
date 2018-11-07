@@ -1,6 +1,7 @@
 {
   "extends": ["@gooddata"],
   "rules": {
-    "header/header": 0
+    "header/header": 0,
+    "react/jsx-filename-extension": 0
   }
 }
