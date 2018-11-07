@@ -1,10 +1,36 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
+import WelcomeScreen from '../screens/WelcomeScreen';
+import MainScreen from '../screens/MainScreen';
+import SettingsScreen from '../screens/SettingsScreen';
+import { SettingsContext } from '../context/settingsContext';
 
-export default createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
-});
+const RootStackNavigatorWrap = (routingOptions) => {
+    const RootStackNavigator = createStackNavigator({
+        Welcome: {
+            screen: WelcomeScreen
+        },
+        Main: {
+            screen: MainScreen
+        },
+        Settings: {
+            screen: SettingsScreen
+        }
+    }, {
+        initialRouteName: routingOptions.welcomeShown ? 'Main' : 'Welcome'
+    });
+    return <RootStackNavigator />;
+};
+
+export default class RootNavigator extends React.Component {
+    render() {
+        return (
+            <SettingsContext.Consumer>
+                {({ welcomeShown }) => (
+                    <RootStackNavigatorWrap routingOptions={welcomeShown} />
+                )}
+            </SettingsContext.Consumer>
+        );
+    }
+}
