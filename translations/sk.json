@@ -1,5 +1,24 @@
 {
-    "welcome": {
-        "title": "Vítajte"
-    }
+  "welcome": {
+    "header": "Vítajte v Stravenkách",
+    "tagLine": "Zrátajte si rýchlo, koľko straveniek dlžíte za spokojné bruško.",
+    "settingsButton": "Konfiguruj"
+  },
+  "main": {
+    "lunchPriceValuePlaceholder": "cena obeda",
+    "calculateMealVouchersPlaceholder": "Spočítaj stravenky",
+    "paymentVariantsHeader": "Varianty",
+    "additionalCashLabel": "hotovosť",
+    "tipLabel": "dýško",
+    "totalPriceLabel": "celkom"
+  },
+  "settings": {
+    "title": "Nastavenia",
+    "backButtonLabel": "Stravenky",
+    "saveButtonTitle": "Uložiť",
+    "mealVouchersHeader": "Používané stravenky",
+    "doneButton": "Hotovo",
+    "mealTicketValuePlaceholder": "hodnota stravenky",
+    "nextMealTicketValuePlaceholder": "ďalšia stravenka"
+  }
 }

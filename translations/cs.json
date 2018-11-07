@@ -1,5 +1,24 @@
 {
-    "welcome": {
-        "title": "Vítejte"
-    }
+  "welcome": {
+    "header": "Vítejte ve Stravenkách",
+    "tagLine": "Rychle si spočítejte, kolik stravenek dlužíte za spokojené bříško.",
+    "settingsButton": "Konfigurovat"
+  },
+  "main": {
+    "lunchPriceValuePlaceholder": "cena oběda",
+    "calculateMealVouchersPlaceholder": "Spočítej stravenky",
+    "paymentVariantsHeader": "Varianty",
+    "additionalCashLabel": "hotovost",
+    "tipLabel": "dýško",
+    "totalPriceLabel": "celkem"
+  },
+  "settings": {
+    "title": "Nastavení",
+    "backButtonLabel": "Stravenky",
+    "saveButtonTitle": "Uložit",
+    "mealVouchersHeader": "Používané stravenky",
+    "doneButton": "Hotovo",
+    "mealTicketValuePlaceholder": "hodnota stravenky",
+    "nextMealTicketValuePlaceholder": "další stravenka"
+  }
 }

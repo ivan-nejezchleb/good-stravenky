@@ -1,10 +1,24 @@
 {
-    "welcome": {
-        "title": "Welcome",
-        "cfgButtonTitle": "Config"
-    },
-    "settings": {
-        "title": "Settings",
-        "saveButtonTitle": "Save"
-    }
+  "welcome": {
+    "header": "Welcome to Stravenky",
+    "tagLine": "Quickly calculate how many meal vouchers you owe for your happy tummy.",
+    "settingsButton": "Configure"
+  },
+  "main": {
+    "lunchPriceValuePlaceholder": "lunch price",
+    "calculateMealVouchersPlaceholder": "Calculate meal voucher",
+    "paymentVariantsHeader": "Variants",
+    "additionalCashLabel": "cash",
+    "tipLabel": "tip",
+    "totalPriceLabel": "total"
+  },
+  "settings": {
+    "title": "Settings",
+    "backButtonLabel": "Meal vouchers",
+    "saveButtonTitle": "Save",
+    "mealVouchersHeader": "Registered meal voucher values",
+    "doneButton": "Done",
+    "mealTicketValuePlaceholder": "meal voucher value",
+    "nextMealTicketValuePlaceholder": "next meal voucher value"
+  }
 }

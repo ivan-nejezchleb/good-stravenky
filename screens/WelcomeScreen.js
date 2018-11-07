@@ -25,8 +25,8 @@ export default class WelcomeScreen extends React.Component {
       const { navigate } = this.props.navigation;
       return (
           <View style={styles.container}>
-              <Text>{translate('welcome.title')}</Text>
-              <Button onPress={() => navigate('Settings')} title={translate('welcome.cfgButtonTitle')} />
+              <Text>{translate('welcome.header')}</Text>
+              <Button onPress={() => navigate('Settings')} title={translate('welcome.settingsButton')} />
           </View>
       );
   }
