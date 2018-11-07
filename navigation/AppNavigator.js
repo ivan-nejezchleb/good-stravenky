@@ -18,7 +18,7 @@ const RootStackNavigatorWrap = ({ routingOptions }) => {
             screen: SettingsScreen
         }
     }, {
-        initialRouteName: routingOptions.showWelcomeScreen ? 'Welcome' : 'Main'
+        initialRouteName: routingOptions.showWelcomeScreen ? 'Welcome' : 'Settings'
     });
     return <RootStackNavigator />;
 };

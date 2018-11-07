@@ -17,6 +17,7 @@ import {
 import {
     CalculationResultsList
 } from '../components/CalculationResultsList';
+import Utils from '../utils/utils';
 
 const styles = StyleSheet.create({
     container: {
@@ -74,6 +75,14 @@ export default class MainScreen extends React.Component {
           mealVouchers
       } = this.state;
       console.log('onValueConfirmed');
+
+      if (!Utils.isValidMealVoucherValue(value)) {
+          this.setState({
+              value: ''
+          });
+          return; // TODO some error should be shown to the user, not just delete entered value silently
+      }
+
       this.setState({
           calculating: true
       }, () => {
