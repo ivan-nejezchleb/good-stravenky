@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
     }
 });
 
-function prepareVouchers(mealVouchers) {
+function sortVouchers(mealVouchers) {
     return mealVouchers.map(voucher => ({
         ...voucher,
         value: parseFloat(voucher.value)
@@ -69,10 +69,10 @@ export default class MainScreen extends React.Component {
       this.setState({
           calculating: true
       }, () => {
-          const calcualtionResults = calculateResults(value, prepareVouchers(mealVouchers));
+          const calcualtionResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
           setTimeout(() => {
               this.setResult(calcualtionResults);
-          }, 3000);
+          }, 300);
       });
   }
 
@@ -87,6 +87,7 @@ export default class MainScreen extends React.Component {
       const {
           calcualtionResults
       } = this.state;
+
       return (<CalculationResultsList items={calcualtionResults} />);
   }
 
