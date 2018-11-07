@@ -1,3 +1,6 @@
 {
-  "extends": ["@gooddata"]
+  "extends": ["@gooddata"],
+  "rules": {
+    "header/header": 0
+  }
 }
