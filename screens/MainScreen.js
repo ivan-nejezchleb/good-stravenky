@@ -63,7 +63,6 @@ export default class MainScreen extends React.Component {
   }
 
   onValueChange(value) {
-      console.log(value);
       this.setState({
           value
       });
@@ -74,7 +73,6 @@ export default class MainScreen extends React.Component {
           value,
           mealVouchers
       } = this.state;
-      console.log('onValueConfirmed');
 
       if (!Utils.isValidMealVoucherValue(value)) {
           this.setState({
@@ -120,7 +118,6 @@ export default class MainScreen extends React.Component {
 
   render() {
       const { value, mealVouchers } = this.state;
-      console.log(value);
       return (
           <KeyboardAvoidingView style={styles.container}>
               <TextInput

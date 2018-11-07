@@ -5,6 +5,9 @@ import { v4 as uuid } from 'uuid';
 
 import { translate } from '../services/translationsService';
 import SettingsService from '../services/settingsService';
+import {
+    SettingsContext
+} from '../context/settingsContext';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
 import Utils from '../utils/utils';
@@ -79,12 +82,15 @@ export default class SettingsScreen extends React.Component {
         });
     }
 
-    async onSave() {
+    async onSave(setSettings, setShowWelcomeScreen) {
         const { mealVouchers } = this.state;
         const { navigate } = this.props.navigation;
         await SettingsService.saveSettings({ mealVouchers });
         await SettingsService.toggleShowWelcomeScreen(false);
-        // TODO setup context
+        // context sync
+        setSettings({ mealVouchers });
+        setShowWelcomeScreen(false);
+
         navigate('Main');
     }
 
@@ -112,24 +118,27 @@ export default class SettingsScreen extends React.Component {
     }
 
     render() {
-        const { mealVouchers } = this.state;
         return (
-            <KeyboardAvoidingView>
-                <FlatList
-                    data={mealVouchers}
-                    renderItem={
-                        ({ item }) =>
-                            <MealVoucherItem item={item} onDelete={this.onDelete} />
-                    }
-                />
-                {
-                    this.showMealVouchersInput() ?
-                        this.renderMealVouchersInput() :
-                        null
-                }
-                <Button onPress={this.onSave} title={translate('settings.saveButtonTitle')} />
-            </KeyboardAvoidingView>
+            <SettingsContext.Consumer>
+                {({ mealVouchers, setSettings, setShowWelcomeScreen }) => (
+                    <KeyboardAvoidingView>
+                        <FlatList
+                            data={mealVouchers}
+                            renderItem={
+                                ({ item }) =>
+                                    <MealVoucherItem item={item} onDelete={this.onDelete} />
+                            }
+                        />
+                        {
+                            this.showMealVouchersInput() ?
+                                this.renderMealVouchersInput() :
+                                null
+                        }
+                        <Button onPress={() => this.onSave(setSettings, setShowWelcomeScreen)} title={translate('settings.saveButtonTitle')} />
+                    </KeyboardAvoidingView>
+                )}
+            </SettingsContext.Consumer>
         );
-    }
+  }
 }
 
