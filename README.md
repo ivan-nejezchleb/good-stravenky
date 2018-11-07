@@ -1,2 +1,2 @@
-# good-stravenky
-Meal vouchers optimizer
+# good-stravenky 🍽
+Aplikace pro výpočet stravenek potřebných pro zaplacení vašeho oběda.
