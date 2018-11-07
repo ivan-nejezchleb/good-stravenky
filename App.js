@@ -24,7 +24,7 @@ export default class App extends React.Component {
             settingsContext: {
                 showWelcomeScreen: true,
                 settings: {
-                    mealVouchers: [],
+                    mealVouchers: []
                 },
                 setShowWelcomeScreen: this.setShowWelcomeScreen,
                 setSettings: this.setSettings
@@ -33,13 +33,18 @@ export default class App extends React.Component {
         };
     }
 
-    setShowWelcomeScreen(newValue = true) {
+    async componentDidMount() {
+        const showWelcomeScreen = await SettingsService.showWelcomeScreen();
+        const settings = await SettingsService.loadSettings();
+
         this.setState({
             settingsContext: {
                 ...this.state.settingsContext,
-                showWelcomeScreen: newValue
-            }
-        })
+                showWelcomeScreen,
+                ...settings
+            },
+            settingsLoaded: true
+        });
     }
 
     setSettings(newSettings) {
@@ -51,18 +56,12 @@ export default class App extends React.Component {
         });
     }
 
-    async componentDidMount() {
-        const showWelcomeScreen = await SettingsService.showWelcomeScreen();
-        const settings = await SettingsService.loadSettings();
+    setShowWelcomeScreen(newValue = true) {
         this.setState({
             settingsContext: {
                 ...this.state.settingsContext,
-                showWelcomeScreen: showWelcomeScreen === null ? true : showWelcomeScreen,
-                settings: {
-                    mealVouchers: settings.mealVouchers || [],
-                }
-            },
-            settingsLoaded: true
+                showWelcomeScreen: newValue
+            }
         });
     }
 
@@ -93,7 +92,7 @@ export default class App extends React.Component {
     };
 
     render() {
-        const { isLoadingComplete, settingsLoaded, showWelcomeScreen, mealVouchers } = this.state;
+        const { isLoadingComplete, settingsLoaded } = this.state;
         if (!isLoadingComplete && !settingsLoaded && !this.props.skipLoadingScreen) {
             return (
                 <AppLoading
@@ -105,8 +104,7 @@ export default class App extends React.Component {
         }
         return (
             <ErrorBoundary>
-                <SettingsContext.Provider value={this.state.settingsContext}
-                >
+                <SettingsContext.Provider value={this.state.settingsContext}>
                     <View style={styles.container}>
                         {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
                         <AppNavigator />

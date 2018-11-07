@@ -50,22 +50,16 @@ export default class WelcomeScreen extends React.Component {
         const { navigate } = this.props.navigation;
         return (
             <View style={styles.container}>
-                <View>
-                    <Text style={styles.header}>{translate('welcome.header')}</Text>
-                </View>
-                <View>
-                    <Text style={styles.tagLine}>{translate('welcome.tagLine')}</Text>
-                </View>
+                <Text style={styles.header}>{translate('welcome.header')}</Text>
+                <Text style={styles.tagLine}>{translate('welcome.tagLine')}</Text>
                 <View style={styles.logo}>
                     <Image source={require('./img/welcome_pic.png')} />
                 </View>
-                <View>
-                    <TouchableOpacity onPress={() => navigate('Settings')} style={styles.buttonWrapper} activeOpacity={0.8}>
-                        <Text style={styles.button}>
-                            {translate('welcome.settingsButton')}
-                        </Text>
-                    </TouchableOpacity>
-                </View>
+                <TouchableOpacity onPress={() => navigate('Settings')} style={styles.buttonWrapper} activeOpacity={0.8}>
+                    <Text style={styles.button}>
+                        {translate('welcome.settingsButton')}
+                    </Text>
+                </TouchableOpacity>
             </View>
         );
     }

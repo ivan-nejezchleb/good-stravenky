@@ -5,6 +5,13 @@ const SHOW_WELCOME_SCREEN_DATA_KEY = 'show_welcome_screen';
 
 async function loadSettings() {
     const serializedSettings = await StorageService.loadData(SETTINGS_DATA_KEY);
+    if (serializedSettings === null) {
+        return {
+            settings: {
+                mealVouchers: []
+            }
+        };
+    }
     return JSON.parse(serializedSettings);
 }
 
@@ -15,6 +22,9 @@ async function saveSettings(settings) {
 
 async function showWelcomeScreen() {
     const serializedValue = await StorageService.loadData(SHOW_WELCOME_SCREEN_DATA_KEY);
+    if (serializedValue === null) {
+        return true;
+    }
     return JSON.parse(serializedValue);
 }
 

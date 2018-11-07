@@ -35,12 +35,12 @@ export default class SettingsScreen extends React.Component {
 
     static propTypes = {
         mealVouchers: PropTypes.array.isRequired
-    }
+    };
 
     static defaultProps = {
         setSettings: ()=>{},
         setShowWelcomeScreen: () => {}
-    }
+    };
 
     constructor(props) {
         super(props);
