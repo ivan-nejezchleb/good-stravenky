@@ -6,7 +6,7 @@ import {
   translate
 } from '../services/translationsService';
 
-export default class LinksScreen extends React.Component {
+export default class WelcomeScreen extends React.Component {
   static navigationOptions = {
     title: 'Links',
   };

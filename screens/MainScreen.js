@@ -15,7 +15,7 @@ import {
   translate
 } from '../services/translationsService';
 
-export default class HomeScreen extends React.Component {
+export default class MainScreen extends React.Component {
   static navigationOptions = {
     header: null,
   };
