@@ -11,6 +11,9 @@ import {
 import { WebBrowser } from 'expo';
 
 import { MonoText } from '../components/StyledText';
+import {
+  t
+} from '../services/translations';
 
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
@@ -42,7 +45,9 @@ export default class HomeScreen extends React.Component {
             </View>
 
             <Text style={styles.getStartedText}>
-              Change this text and your app will automatically reload.
+              {
+                t('welcome.title')
+              }
             </Text>
           </View>
 
