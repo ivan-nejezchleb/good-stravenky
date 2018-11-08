@@ -87,6 +87,10 @@ export default class SettingsScreen extends React.Component {
 
     async onSave() {
         const { mealVouchers } = this.state;
+        if (mealVouchers.length === 0) {
+            return; // TODO display some error to the user, do not fail silently
+        }
+
         await SettingsService.saveSettings({ mealVouchers });
         await SettingsService.toggleShowWelcomeScreen(false);
         // context sync
