@@ -154,12 +154,6 @@ export class SettingsScreenConsumer extends React.Component {
                     onPress={() => navigation.getParam('onSaveHandler')()}
                     title={translate('settings.saveButtonTitle')}
                 />
-            ),
-            headerLeft: (
-                <Button
-                    onPress={() => navigation.navigate('Main')}
-                    title={`< ${translate('settings.backButtonLabel')}`}
-                />
             )
         };
     };
