@@ -122,6 +122,7 @@ class SettingsScreen extends React.Component {
                 keyboardType="number-pad"
                 returnKeyType="done"
                 placeholder={placeholder}
+                autoFocus={this.props.showWelcomeScreen}
             />
         );
     }
@@ -214,12 +215,13 @@ export class SettingsScreenConsumer extends React.Component {
     render() {
         return (
             <SettingsContext.Consumer>
-                {({ settings, setSettings, setShowWelcomeScreen }) => (
+                {({ settings, setSettings, setShowWelcomeScreen, showWelcomeScreen }) => (
                     <SettingsScreen
                         {...this.props}
                         mealVouchers={settings.mealVouchers}
                         strategyWeights={settings.strategyWeights}
                         setSettings={setSettings}
+                        showWelcomeScreen={showWelcomeScreen}
                         setShowWelcomeScreen={setShowWelcomeScreen}
                         triggerSave={this.state.triggerSave}
                     />

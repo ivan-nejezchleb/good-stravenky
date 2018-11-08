@@ -8,13 +8,12 @@ Made with React Native with love during GoodData Hackaton 2018 by Monika Lalak, 
 
 ## Must be resolved before publish to the app store
 * Style Main screen according to the designs
-    * Style the results
+    * Style the screen
     * Solve issue with results scrolling
     * Main page should display button for calc or display keyboard right away (focus price input)
 * Style Settings screen according to the designs
     * Debounce save in Settings screen
     * Do not dismiss welcome screen upon ranking strategy selection
-    * Open keyboard upon first setup
 * Show warning when invalid input was entered (2x voucher price + save with no voucher values) 
 * Test default locale detection
 * Ask Monca
