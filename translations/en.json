@@ -14,7 +14,7 @@
   },
   "settings": {
     "title": "Settings",
-    "backButtonLabel": "Meal vouchers",
+    "backButtonLabel": "Back",
     "saveButtonTitle": "Save",
     "mealVouchersHeader": "Registered meal voucher values",
     "doneButton": "Done",

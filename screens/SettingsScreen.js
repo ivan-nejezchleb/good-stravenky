@@ -6,9 +6,7 @@ import { v4 as uuid } from 'uuid';
 
 import { translate } from '../services/translationsService';
 import SettingsService from '../services/settingsService';
-import {
-    SettingsContext
-} from '../context/settingsContext';
+import { SettingsContext } from '../context/settingsContext';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
 import Utils from '../utils/utils';
@@ -29,17 +27,15 @@ const styles = StyleSheet.create({
 });
 
 export default class SettingsScreen extends React.Component {
-    static navigationOptions = {
-        title: translate('settings.title')
-    };
 
     static propTypes = {
         mealVouchers: PropTypes.array.isRequired
     };
 
     static defaultProps = {
-        setSettings: ()=>{},
-        setShowWelcomeScreen: () => {}
+        setSettings: () => {},
+        setShowWelcomeScreen: () => {},
+        triggerSave: false
     };
 
     constructor(props) {
@@ -53,6 +49,12 @@ export default class SettingsScreen extends React.Component {
         this.onSave = this.onSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onReset = this.onReset.bind(this);
+    }
+
+    async componentWillReceiveProps(nextProps) {
+        if (nextProps.triggerSave) {
+            await this.onSave();
+        }
     }
 
     onValueChange(value) {
@@ -137,7 +139,6 @@ export default class SettingsScreen extends React.Component {
                         this.renderMealVouchersInput() :
                         null
                 }
-                <Button onPress={() => this.onSave()} title={translate('settings.saveButtonTitle')} />
                 <Button onPress={() => this.onReset()} title="Reset Welcome" />
             </KeyboardAvoidingView>
         );
@@ -145,6 +146,46 @@ export default class SettingsScreen extends React.Component {
 }
 
 export class SettingsScreenConsumer extends React.Component {
+    static navigationOptions = ({ navigation }) => {
+        return {
+            headerTitle: translate('settings.title'),
+            headerRight: (
+                <Button
+                    onPress={() => navigation.getParam('onSaveHandler')()}
+                    title={translate('settings.saveButtonTitle')}
+                />
+            ),
+            headerLeft: (
+                <Button
+                    onPress={() => navigation.navigate('Main')}
+                    title={`< ${translate('settings.backButtonLabel')}`}
+                />
+            )
+        };
+    };
+
+    constructor() {
+        super();
+        this.state = {
+            triggerSave: false
+        };
+    }
+
+    componentDidMount() {
+        this.props.navigation.setParams({
+            onSaveHandler: this.onSave
+        });
+        this.setState({
+            triggerSave: false
+        });
+    }
+
+    onSave = () => {
+        this.setState({
+            triggerSave: true
+        });
+    };
+
     render() {
         return (
             <SettingsContext.Consumer>
@@ -154,6 +195,7 @@ export class SettingsScreenConsumer extends React.Component {
                         mealVouchers={settings.mealVouchers}
                         setSettings={setSettings}
                         setShowWelcomeScreen={setShowWelcomeScreen}
+                        triggerSave={this.state.triggerSave}
                     />
                 )}
             </SettingsContext.Consumer>
