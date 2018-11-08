@@ -20,5 +20,9 @@
     "doneButton": "Done",
     "mealTicketValuePlaceholder": "meal voucher value",
     "nextMealTicketValuePlaceholder": "next meal voucher value"
+  },
+  "slider": {
+    "cash": "Prefere Cash",
+    "tips": "Prefere Tip"
   }
 }

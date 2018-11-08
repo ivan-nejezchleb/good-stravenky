@@ -30,7 +30,6 @@ function getHighestCombinations(value, mealVouchers) {
 }
 
 function getNextCombinations(value, mealVouchers, highestCombinations, allResults) {
-    console.log(mealVouchers);
     const smallestVoucherValue = mealVouchers.slice(-1)[0].value;
     const highestCombination = highestCombinations[0];
     const nextCombination = highestCombinations[1];

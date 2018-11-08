@@ -1,8 +1,37 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
-    Slider
+    View,
+    Slider,
+    StyleSheet,
+    Text
 } from 'react-native';
+
+import {
+    translate
+} from '../services/translationsService';
+
+const styles = StyleSheet.create({
+    labelsContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    labelLeft: {
+        alignItems: "flex-start"
+    },
+    labelRight: {
+        alignItems: "flex-end"
+    },
+    thumbStyle: {
+        width: 30,
+        height: 30,
+        backgroundColor: 'rgba(150, 150, 150, 0.3)',
+        borderColor: 'rgba(150, 150, 150, 0.6)',
+        borderWidth: 14,
+        borderRadius: 15
+    }
+});
 
 export class StrategySlider extends React.Component {
     static propTypes = {
@@ -60,7 +89,23 @@ export class StrategySlider extends React.Component {
             value
         } = this.state;
         return (
-            <Slider value={value} minimumValue={0} maximumValue={2} step={1} onValueChange={this.onValueChange} />
+            <View>
+                <View style={styles.labelsContainer}>
+                    <Text style={styles.labelLeft}>{translate('slider.cash')}</Text>
+                    <Text style={styles.labelRight}>{translate('slider.tips')}</Text>
+                </View>
+                <Slider
+                    value={value}
+                    minimumValue={0}
+                    maximumValue={2}
+                    step={1}
+                    onValueChange={this.onValueChange}
+                    thumbTintColor="#279AF1"
+                    minimumTrackTintColor = 'transparent'
+                    maximumTrackTintColor = 'transparent'
+                />
+            </View>
+
         );
     }
 }

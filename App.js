@@ -36,7 +36,6 @@ export default class App extends React.Component {
     async componentDidMount() {
         const showWelcomeScreen = await SettingsService.showWelcomeScreen();
         const settings = await SettingsService.loadSettings();
-        console.log(settings);
         this.setState({
             settingsContext: {
                 ...this.state.settingsContext,
@@ -47,7 +46,7 @@ export default class App extends React.Component {
                 }
             },
             settingsLoaded: true
-        }, console.log(this.state.settingsContext));
+        });
     }
 
     setSettings(newSettings) {

@@ -20,5 +20,9 @@
     "doneButton": "Hotovo",
     "mealTicketValuePlaceholder": "hodnota stravenky",
     "nextMealTicketValuePlaceholder": "ďalšia stravenka"
+  },
+  "slider": {
+    "cash": "Uprednostniť doplatok",
+    "tips": "Uprednostniť dýško"
   }
 }

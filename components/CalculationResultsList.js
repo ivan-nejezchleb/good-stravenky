@@ -20,7 +20,6 @@ const styles = StyleSheet.create({
 export class CalculationResultsList extends React.Component {
     render() {
         const {items} = this.props;
-        console.log(items);
         return (
             <ScrollView contentContainerStyle={styles.contentContainer}>
                 { items.length ? <Text>{translate('main.paymentVariantsHeader')}</Text> : null}
