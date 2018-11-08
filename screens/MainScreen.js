@@ -31,80 +31,80 @@ function sortVouchers(mealVouchers) {
 }
 
 export default class MainScreen extends React.Component {
-  static navigationOptions = {
-      header: null
-  };
+    static navigationOptions = {
+        header: null
+    };
 
-  constructor(props) {
-      super(props);
-      this.state = {
-          value: '',
-          calcualtionResults: [],
-          calculating: false
-      };
+    constructor(props) {
+        super(props);
+        this.state = {
+            value: '',
+            calcualtionResults: [],
+            calculating: false
+        };
 
-      this.setResult = this.setResult.bind(this);
+        this.setResult = this.setResult.bind(this);
 
-      this.onValueChange = this.onValueChange.bind(this);
-      this.onValueConfirmed = this.onValueConfirmed.bind(this);
-  }
+        this.onValueChange = this.onValueChange.bind(this);
+        this.onValueConfirmed = this.onValueConfirmed.bind(this);
+    }
 
-  onValueChange(value) {
-      this.setState({
-          value
-      });
-  }
+    onValueChange(value) {
+        this.setState({
+            value
+        });
+    }
 
-  onValueConfirmed() {
-      const {
-          value
-      } = this.state;
-      if (!Utils.isValidMealVoucherValue(value)) {
-          this.setState({
-              value: ''
-          });
-          return; // TODO some error should be shown to the user, not just delete entered value silently
-      }
+    onValueConfirmed() {
+        const {
+            value
+        } = this.state;
+        if (!Utils.isValidMealVoucherValue(value)) {
+            this.setState({
+                value: ''
+            });
+            return; // TODO some error should be shown to the user, not just delete entered value silently
+        }
 
-      this.setState({
-          calculating: true
-      }, () => {
-          const calcualtionResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
-          setTimeout(() => {
-              this.setResult(calcualtionResults);
-          }, 300);
-      });
-  }
+        this.setState({
+            calculating: true
+        }, () => {
+            const calcualtionResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
+            setTimeout(() => {
+                this.setResult(calcualtionResults);
+            }, 300);
+        });
+    }
 
-  setResult(calcualtionResults) {
-      this.setState({
-          calculating: false,
-          calcualtionResults
-      });
-  }
+    setResult(calcualtionResults) {
+        this.setState({
+            calculating: false,
+            calcualtionResults
+        });
+    }
 
-  renderResultsList() {
-      const {
-          calcualtionResults
-      } = this.state;
+    renderResultsList() {
+        const {
+            calcualtionResults
+        } = this.state;
 
-      return (<CalculationResultsList items={calcualtionResults} />);
-  }
+        return (<CalculationResultsList items={calcualtionResults} />);
+    }
 
-  renderResults() {
-      const {
-          calculating
-      } = this.state;
-      if (calculating) {
-          return (<Text>Kalkulujuuuuu</Text>);
-      }
-      return this.renderResultsList();
-  }
+    renderResults() {
+        const {
+            calculating
+        } = this.state;
+        if (calculating) {
+            return (<Text>Kalkulujuuuuu</Text>);
+        }
+        return this.renderResultsList();
+    }
 
-  render() {
-      const { value } = this.state;
-      const { navigate } = this.props.navigation;
-      return (
+    render() {
+        const { value } = this.state;
+        const { navigate } = this.props.navigation;
+        return (
             <KeyboardAvoidingView style={styles.container}>
                 <Button onPress={() => navigate('Settings')} title="<SETTINGS>" />
                 <TextInput
@@ -124,8 +124,8 @@ export default class MainScreen extends React.Component {
                 />
                 {this.renderResults()}
             </KeyboardAvoidingView>
-      );
-  }
+        );
+    }
 }
 
 export class MainScreenConsumer extends React.Component {
