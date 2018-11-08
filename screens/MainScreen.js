@@ -1,5 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, FlatList, KeyboardAvoidingView, Button } from 'react-native';
+import {
+    StyleSheet,
+    Text,
+    TextInput,
+    FlatList,
+    KeyboardAvoidingView,
+    Image,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 
 import { calculateResults } from '../services/calculationService';
 
@@ -9,20 +18,7 @@ import { StrategySlider } from '../components/StrategySlider';
 
 import { SettingsContext } from '../context/settingsContext';
 import Utils from '../utils/utils';
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        paddingTop: 120
-    },
-    valueInput: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        textAlign: 'right'
-    }
-});
+import { translate } from '../services/translationsService';
 
 function sortVouchers(mealVouchers) {
     return mealVouchers.map(voucher => ({
@@ -32,9 +28,6 @@ function sortVouchers(mealVouchers) {
 }
 
 export default class MainScreen extends React.Component {
-    static navigationOptions = {
-        header: null
-    };
 
     constructor(props) {
         super(props);
@@ -123,23 +116,45 @@ export default class MainScreen extends React.Component {
         const { navigate } = this.props.navigation;
         return (
             <KeyboardAvoidingView style={styles.container}>
-                <Button onPress={() => navigate('Settings')} title="<SETTINGS>" />
-                <TextInput
-                    style={styles.valueInput}
-                    onSubmitEditing={this.onValueConfirmed}
-                    onChangeText={this.onValueChange}
-                    value={value}
-                    keyboardType="number-pad"
-                    returnKeyType="done"
+                <View style={styles.topPanel}>
+                    <View style={styles.topStatusBar}>
+                        <TouchableOpacity
+                            onPress={() => navigate('Settings')}
+                            style={styles.settingsButtonWrapper}
+                            activeOpacity={0.8}
+                        >
+                            <Image source={require('./img/config.png')} />
+                        </TouchableOpacity>
+                    </View>
+                    <TextInput
+                        style={styles.valueInput}
+                        onSubmitEditing={this.onValueConfirmed}
+                        onChangeText={this.onValueChange}
+                        value={value}
+                        keyboardType="number-pad"
+                        returnKeyType="done"
+                        placeholder={translate('main.lunchPriceValuePlaceholder')}
+                        placeholderTextColor="#E2E7EC"
+                    />
+                </View>
+                <FlatList
+                    data={this.props.mealVouchers}
+                    renderItem={
+                        ({ item }) =>
+                            <MealVoucherItem item={item} />
+                    }
                 />
                 <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
-                {this.renderResults()}
             </KeyboardAvoidingView>
         );
     }
 }
 
 export class MainScreenConsumer extends React.Component {
+    static navigationOptions = {
+        header: null
+    };
+
     render() {
         return (
             <SettingsContext.Consumer>
@@ -154,3 +169,33 @@ export class MainScreenConsumer extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        backgroundColor: '#fff'
+    },
+    topPanel: {
+        borderBottomWidth: 2,
+        borderColor: '#CAD4DE',
+        backgroundColor: '#F9FAFB'
+    },
+    topStatusBar: {
+        alignItems: 'flex-end',
+        paddingTop: 20
+    },
+    settingsButtonWrapper: {
+        padding: 15
+    },
+    valueInput: {
+        height: 50,
+        textAlign: 'right',
+        fontSize: 40,
+        borderWidth: 0,
+        marginRight: 20,
+        marginBottom: 20,
+        marginTop: 30
+    }
+});
