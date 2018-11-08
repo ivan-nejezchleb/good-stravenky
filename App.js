@@ -36,15 +36,18 @@ export default class App extends React.Component {
     async componentDidMount() {
         const showWelcomeScreen = await SettingsService.showWelcomeScreen();
         const settings = await SettingsService.loadSettings();
-
+        console.log(settings);
         this.setState({
             settingsContext: {
                 ...this.state.settingsContext,
                 showWelcomeScreen,
-                ...settings
+                settings: {
+                    ...this.state.settingsContext.settings,
+                    ...settings
+                }
             },
             settingsLoaded: true
-        });
+        }, console.log(this.state.settingsContext));
     }
 
     setSettings(newSettings) {

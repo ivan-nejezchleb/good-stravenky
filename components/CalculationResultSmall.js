@@ -16,9 +16,9 @@ export class CalculationResultSmall extends React.Component {
                 {item.combination
                     .map(part => (
                         <Text key={`${part.count} * ${part.value}`}>
-                            {`${part.count} * ${part.value}`}
+                            {`${part.count} * ${part.value}`} +
                         </Text>
-                    ))} - {item.cash} : {item.tips}
+                    ))} - {item.cash} : {item.tips} ( {item.score} )
                 </Text>
             </View>
         );

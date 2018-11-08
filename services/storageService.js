@@ -7,6 +7,7 @@ async function saveData(key, value) {
 }
 
 async function loadData(key) {
+    // await AsyncStorage.clear();
     return AsyncStorage.getItem(key);
 }
 

@@ -2,7 +2,11 @@ function getCombinationValue(combination) {
     return combination.reduce((result, part) => result = result + (part.count * part.value), 0);
 }
 
-function getHighestCombination(value, mealVouchers) {
+function isValidResult(result, smallestVoucherValue) {
+    return result.cash < smallestVoucherValue && result.tips < smallestVoucherValue;
+}
+
+function getHighestCombinations(value, mealVouchers) {
     let combinationValue = 0;
     return mealVouchers.reduce((result, mealVoucher) => {
         let count = Math.floor(value / mealVoucher.value);
@@ -25,63 +29,75 @@ function getHighestCombination(value, mealVouchers) {
     }, []);
 }
 
-function getNextCombinations(value, mealVouchers, initCombo) {
-    // console.log(arguments);
-    let combinationValue = getCombinationValue(initCombo);
-    return mealVouchers.reduce((result, mealVoucher) => {
-        let count = Math.floor(value / mealVoucher.value);
-        const remainder = value % mealVoucher.value;
-        if (remainder === 0) {
-            combinationValue = combinationValue + (count * mealVoucher.value);
-            result.push({
-                value: mealVoucher.value,
-                count
-            });
+function getNextCombinations(value, mealVouchers, highestCombinations, allResults) {
+    console.log(mealVouchers);
+    const smallestVoucherValue = mealVouchers.slice(-1)[0].value;
+    const highestCombination = highestCombinations[0];
+    const nextCombination = highestCombinations[1];
+
+    for (let count = highestCombination.count; count >= 0; count--) {
+        const pregeneratedCombination = [{
+            count,
+            value: highestCombination.value
+        }];
+        if(nextCombination) {
+            for (let countNext = nextCombination.count; countNext >= 0; countNext--) {
+                const finalCombination = [...pregeneratedCombination];
+                finalCombination.push({
+                    count: countNext,
+                    value: nextCombination.value
+                });
+                const result = getResult(value, finalCombination);
+
+                if (isValidResult(result, smallestVoucherValue)) {
+                    allResults.push(result);
+                }
+            }
         } else {
-            count = count + 1;
-            combinationValue = combinationValue + (count * mealVoucher.value);
-            result.push({
-                value: mealVoucher.value,
-                count
-            });
+            const result = getResult(value, pregeneratedCombination);
+
+            if (isValidResult(result, smallestVoucherValue)) {
+                allResults.push(result);
+            }
         }
-        return result;
-    }, initCombo);
+    }
 }
 
-export function getAllResults(value, mealVouchers) {
-    let valueToWork = value;
-    let combinationValue = 0;
-    const allCombinations = [];
-
-    const highestCombination = getHighestCombination(valueToWork, mealVouchers);
-    combinationValue = getCombinationValue(highestCombination);
-
-    allCombinations.push({
-        combination: highestCombination,
+function getResult(value, combination) {
+    const combinationValue = getCombinationValue(combination);
+    return {
+        combination,
         cash: Math.max(value - combinationValue, 0),
         tips: Math.max(combinationValue - value, 0),
-    });
-
-    const newCount = highestCombination.slice(-1)[0].count - 1;
-
-    if(newCount > 0) {
-        const initCombo = [{
-            value: highestCombination.slice(-1)[0].value,
-            count: newCount
-        }]
-        const nextCombination = getNextCombinations(value - getCombinationValue(initCombo), mealVouchers.slice(0, mealVouchers.length - 1), initCombo);
-        combinationValue = getCombinationValue(nextCombination);
-
-        allCombinations.push({
-            combination: nextCombination,
-            cash: Math.max(value - combinationValue, 0),
-            tips: Math.max(combinationValue - value, 0),
-        });
     }
+}
 
+export function getAllResults(value, mealVouchers, initCombo) {
+    let valueToWork = value;
+    const allResults = [];
 
-    return allCombinations;
+    const highestCombinations = getHighestCombinations(valueToWork, mealVouchers);
+    getNextCombinations(value, mealVouchers, highestCombinations, allResults);
+
+    return allResults;
+}
+
+function getCashScore(result) {
+    return -(result.cash);
+}
+function getTipsScore(result) {
+    return -(result.tips);
+}
+
+function getScore(result) {
+    return (10 * getCashScore(result)) + (100 * getTipsScore(result));
+}
+
+function prioritiseResults(allResults) {
+    return allResults.map(result => ({
+        ...result,
+        score: getScore(result)
+    })).sort((a, b) => a.score < b.score);
 }
 
 
@@ -89,5 +105,5 @@ export function getAllResults(value, mealVouchers) {
 export function calculateResults(valueString, mealVouchers) {
     const value = parseFloat(valueString);
 
-    return getAllResults(value, mealVouchers);
+    return prioritiseResults(getAllResults(value, mealVouchers, []));
 }
