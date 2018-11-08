@@ -4,9 +4,10 @@ import { StyleSheet, Text, TextInput, FlatList, KeyboardAvoidingView, Button } f
 import { calculateResults } from '../services/calculationService';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
-import { SettingsContext } from '../context/settingsContext';
-
 import { CalculationResultsList } from '../components/CalculationResultsList';
+import { StrategySlider } from '../components/StrategySlider';
+
+import { SettingsContext } from '../context/settingsContext';
 import Utils from '../utils/utils';
 
 const styles = StyleSheet.create({
@@ -47,6 +48,7 @@ export default class MainScreen extends React.Component {
 
         this.onValueChange = this.onValueChange.bind(this);
         this.onValueConfirmed = this.onValueConfirmed.bind(this);
+        this.onStrategyChange = this.onStrategyChange.bind(this);
     }
 
     onValueChange(value) {
@@ -70,6 +72,18 @@ export default class MainScreen extends React.Component {
             calculating: true
         }, () => {
             const calcualtionResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
+            setTimeout(() => {
+                this.setResult(calcualtionResults);
+            }, 300);
+        });
+    }
+
+    onStrategyChange(newValue) {
+        this.setState({
+            strategyWeights: newValue,
+            calculating: true
+        }, () => {
+            const calcualtionResults = calculateResults(this.state.value, sortVouchers(this.props.mealVouchers), newValue);
             setTimeout(() => {
                 this.setResult(calcualtionResults);
             }, 300);
@@ -102,7 +116,10 @@ export default class MainScreen extends React.Component {
     }
 
     render() {
-        const { value } = this.state;
+        const {
+            value,
+            strategyWeights
+        } = this.state;
         const { navigate } = this.props.navigation;
         return (
             <KeyboardAvoidingView style={styles.container}>
@@ -115,13 +132,7 @@ export default class MainScreen extends React.Component {
                     keyboardType="number-pad"
                     returnKeyType="done"
                 />
-                <FlatList
-                    data={this.props.mealVouchers}
-                    renderItem={
-                        ({ item }) =>
-                            <MealVoucherItem item={item} />
-                    }
-                />
+                <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
                 {this.renderResults()}
             </KeyboardAvoidingView>
         );
@@ -136,6 +147,7 @@ export class MainScreenConsumer extends React.Component {
                     <MainScreen
                         {...this.props}
                         mealVouchers={settings.mealVouchers}
+                        strategyWeights={settings.strategyWeights}
                     />
                 )}
             </SettingsContext.Consumer>

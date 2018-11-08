@@ -72,7 +72,7 @@ function getResult(value, combination) {
     }
 }
 
-export function getAllResults(value, mealVouchers, initCombo) {
+export function getAllResults(value, mealVouchers) {
     let valueToWork = value;
     const allResults = [];
 
@@ -89,21 +89,21 @@ function getTipsScore(result) {
     return -(result.tips);
 }
 
-function getScore(result) {
-    return (10 * getCashScore(result)) + (100 * getTipsScore(result));
+function getScore(result, strategyWeights) {
+    return (strategyWeights.cash * getCashScore(result)) + (strategyWeights.tips * getTipsScore(result));
 }
 
-function prioritiseResults(allResults) {
+function prioritiseResults(allResults, strategyWeights) {
     return allResults.map(result => ({
         ...result,
-        score: getScore(result)
+        score: getScore(result, strategyWeights)
     })).sort((a, b) => a.score < b.score);
 }
 
 
 
-export function calculateResults(valueString, mealVouchers) {
+export function calculateResults(valueString, mealVouchers, strategyWeights = { cash: 100, tips: 100 }) {
     const value = parseFloat(valueString);
 
-    return prioritiseResults(getAllResults(value, mealVouchers, []));
+    return prioritiseResults(getAllResults(value, mealVouchers), strategyWeights);
 }

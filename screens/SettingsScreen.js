@@ -9,6 +9,7 @@ import SettingsService from '../services/settingsService';
 import { SettingsContext } from '../context/settingsContext';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
+import { StrategySlider } from '../components/StrategySlider';
 import Utils from '../utils/utils';
 
 const MAX_SUPPORTED_VALUES = 2;
@@ -29,23 +30,31 @@ const styles = StyleSheet.create({
 export default class SettingsScreen extends React.Component {
 
     static propTypes = {
-        mealVouchers: PropTypes.array.isRequired
+        mealVouchers: PropTypes.array,
+        strategyWeights: PropTypes.object
     };
 
     static defaultProps = {
-        setSettings: () => {},
+        triggerSave: false,
+        mealVouchers: [],
+        setSettings: ()=>{},
         setShowWelcomeScreen: () => {},
-        triggerSave: false
+        strategyWeights: {
+            cash: 100,
+            tips: 100
+        }
     };
 
     constructor(props) {
         super(props);
         this.state = {
             text: '',
-            mealVouchers: [...this.props.mealVouchers]
+            mealVouchers: [...this.props.mealVouchers],
+            strategyWeights: { ...this.props.strategyWeights }
         };
         this.onValueChange = this.onValueChange.bind(this);
         this.onValueConfirmed = this.onValueConfirmed.bind(this);
+        this.onStrategyChange = this.onStrategyChange.bind(this);
         this.onSave = this.onSave.bind(this);
         this.onDelete = this.onDelete.bind(this);
         this.onReset = this.onReset.bind(this);
@@ -86,12 +95,12 @@ export default class SettingsScreen extends React.Component {
     }
 
     async onSave() {
-        const { mealVouchers } = this.state;
+        const { mealVouchers, strategyWeights } = this.state;
         if (mealVouchers.length === 0) {
             return; // TODO display some error to the user, do not fail silently
         }
 
-        await SettingsService.saveSettings({ mealVouchers });
+        await SettingsService.saveSettings({ mealVouchers, strategyWeights });
         await SettingsService.toggleShowWelcomeScreen(false);
         // context sync
         this.props.setSettings({ mealVouchers });
@@ -127,8 +136,17 @@ export default class SettingsScreen extends React.Component {
         );
     }
 
+    onStrategyChange(newValue) {
+        this.setState({
+            strategyWeights: newValue
+        });
+    }
+
     render() {
-        const { mealVouchers } = this.state;
+        const {
+            mealVouchers,
+            strategyWeights
+        } = this.state;
         return (
             <KeyboardAvoidingView>
                 <FlatList
@@ -143,6 +161,7 @@ export default class SettingsScreen extends React.Component {
                         this.renderMealVouchersInput() :
                         null
                 }
+                <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
                 <Button onPress={() => this.onReset()} title="Reset Welcome" />
             </KeyboardAvoidingView>
         );
@@ -191,6 +210,7 @@ export class SettingsScreenConsumer extends React.Component {
                     <SettingsScreen
                         {...this.props}
                         mealVouchers={settings.mealVouchers}
+                        strategyWeights={settings.strategyWeights}
                         setSettings={setSettings}
                         setShowWelcomeScreen={setShowWelcomeScreen}
                         triggerSave={this.state.triggerSave}
