@@ -129,7 +129,6 @@ export default class MainScreen extends React.Component {
                         placeholderTextColor="#E2E7EC"
                     />
                 </View>
-                {/*<StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />*/}
                 {this.renderResults()}
             </KeyboardAvoidingView>
         );
