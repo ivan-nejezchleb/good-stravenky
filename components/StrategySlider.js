@@ -18,9 +18,11 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     labelLeft: {
+        margin: 10,
         alignItems: "flex-start"
     },
     labelRight: {
+        margin: 10,
         alignItems: "flex-end"
     },
     thumbStyle: {

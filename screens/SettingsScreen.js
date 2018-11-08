@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, FlatList, KeyboardAvoidingView, Button, StyleSheet } from 'react-native';
+import { TextInput, FlatList, KeyboardAvoidingView, Button, StyleSheet, View, Text } from 'react-native';
 
 import { v4 as uuid } from 'uuid';
 
@@ -16,15 +16,30 @@ const MAX_SUPPORTED_VALUES = 2;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        backgroundColor: '#fff'
+    },
+    headerContainer: {
+        textAlign: 'center'
+    },
+    bottomContainer: {
         backgroundColor: '#fff'
     },
     valueInput: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        textAlign: 'right'
-    }
+        height: 50,
+        textAlign: 'right',
+        fontSize: 40,
+        borderWidth: 0,
+        marginRight: 20,
+        marginBottom: 20,
+        marginTop: 30
+    },
+    header: {
+        fontSize: 22,
+        fontWeight: 'bold',
+        paddingTop: 130,
+        color: '#778491',
+        textAlign: 'center'
+    },
 });
 
 export default class SettingsScreen extends React.Component {
@@ -124,6 +139,7 @@ export default class SettingsScreen extends React.Component {
     }
 
     renderMealVouchersInput() {
+        const placeholder = this.state.mealVouchers.length ? translate('settings.nextMealTicketValuePlaceholder') : translate('settings.mealTicketValuePlaceholder');
         return (
             <TextInput
                 style={styles.valueInput}
@@ -132,6 +148,7 @@ export default class SettingsScreen extends React.Component {
                 value={this.state.text}
                 keyboardType="number-pad"
                 returnKeyType="done"
+                placeholder={placeholder}
             />
         );
     }
@@ -149,20 +166,26 @@ export default class SettingsScreen extends React.Component {
         } = this.state;
         return (
             <KeyboardAvoidingView>
-                <FlatList
-                    data={mealVouchers}
-                    renderItem={
-                        ({ item }) =>
-                            <MealVoucherItem item={item} onDelete={this.onDelete} />
-                    }
-                />
-                {
-                    this.showMealVouchersInput() ?
+                <View style={styles.container}>
+                    <View styel={styles.headerContainer}>
+                        <Text style={styles.header}>{translate('settings.mealVouchersHeader')}</Text>
+                    </View>
+                    <View style={styles.list}>
+                        <FlatList
+                            data={mealVouchers}
+                            renderItem={
+                                ({ item }) =>
+                                <MealVoucherItem item={item} onDelete={this.onDelete} />
+                            }
+                            />
+                    </View>
+                    {
+                        this.showMealVouchersInput() ?
                         this.renderMealVouchersInput() :
                         null
-                }
-                <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
-                <Button onPress={() => this.onReset()} title="Reset Welcome" />
+                    }
+                    <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
+                </View>
             </KeyboardAvoidingView>
         );
     }
