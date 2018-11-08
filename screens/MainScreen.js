@@ -137,14 +137,8 @@ export default class MainScreen extends React.Component {
                         placeholderTextColor="#E2E7EC"
                     />
                 </View>
-                <FlatList
-                    data={this.props.mealVouchers}
-                    renderItem={
-                        ({ item }) =>
-                            <MealVoucherItem item={item} />
-                    }
-                />
                 <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
+                {this.renderResults()}
             </KeyboardAvoidingView>
         );
     }
