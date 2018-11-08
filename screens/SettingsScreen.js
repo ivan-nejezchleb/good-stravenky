@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         borderWidth: 0,
         marginRight: 20,
         marginBottom: 20,
-        marginTop: 30
+        marginTop: 30,
+        color: '#778491'
     },
     header: {
         fontSize: 22,

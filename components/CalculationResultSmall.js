@@ -60,7 +60,7 @@ export class CalculationResultSmall extends React.Component {
                     <Text>{translate('main.tipLabel')}</Text>
                 </View>
                 <View>
-                    <Text style={styles.total}>{getCombinationValue(item.combination)}</Text>
+                    <Text style={styles.total}>{getCombinationValue(item.combination) + item.cash}</Text>
                     <Text>{translate('main.totalPriceLabel')}</Text>
                 </View>
             </View>
