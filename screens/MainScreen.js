@@ -1,20 +1,8 @@
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    TextInput,
-    FlatList,
-    KeyboardAvoidingView,
-    Image,
-    TouchableOpacity,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, TextInput, KeyboardAvoidingView, Image, TouchableOpacity, View } from 'react-native';
 
 import { calculateResults } from '../services/calculationService';
-
-import { MealVoucherItem } from '../components/MealVoucherItem';
 import { CalculationResultsList } from '../components/CalculationResultsList';
-import { StrategySlider } from '../components/StrategySlider';
 
 import { SettingsContext } from '../context/settingsContext';
 import Utils from '../utils/utils';
@@ -33,7 +21,7 @@ export default class MainScreen extends React.Component {
         super(props);
         this.state = {
             value: '',
-            calcualtionResults: [],
+            calculationResults: [],
             calculating: false
         };
 
@@ -64,10 +52,10 @@ export default class MainScreen extends React.Component {
         this.setState({
             calculating: true
         }, () => {
-            const calcualtionResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
+            const calculationResults = calculateResults(value, sortVouchers(this.props.mealVouchers));
             setTimeout(() => {
-                this.setResult(calcualtionResults);
-            }, 300);
+                this.setResult(calculationResults);
+            }, 1);
         });
     }
 
@@ -76,26 +64,30 @@ export default class MainScreen extends React.Component {
             strategyWeights: newValue,
             calculating: true
         }, () => {
-            const calcualtionResults = calculateResults(this.state.value, sortVouchers(this.props.mealVouchers), newValue);
+            const calculationResults = calculateResults(
+                this.state.value,
+                sortVouchers(this.props.mealVouchers),
+                newValue
+            );
             setTimeout(() => {
-                this.setResult(calcualtionResults);
-            }, 300);
+                this.setResult(calculationResults);
+            }, 1);
         });
     }
 
-    setResult(calcualtionResults) {
+    setResult(calculationResults) {
         this.setState({
             calculating: false,
-            calcualtionResults
+            calculationResults
         });
     }
 
     renderResultsList() {
         const {
-            calcualtionResults
+            calculationResults
         } = this.state;
 
-        return (<CalculationResultsList items={calcualtionResults} />);
+        return (<CalculationResultsList items={calculationResults} />);
     }
 
     renderResults() {
@@ -137,7 +129,7 @@ export default class MainScreen extends React.Component {
                         placeholderTextColor="#E2E7EC"
                     />
                 </View>
-                <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
+                {/*<StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />*/}
                 {this.renderResults()}
             </KeyboardAvoidingView>
         );
@@ -187,6 +179,8 @@ const styles = StyleSheet.create({
         height: 50,
         textAlign: 'right',
         fontSize: 40,
+        fontWeight: 'bold',
+        color: '#778491',
         borderWidth: 0,
         marginRight: 20,
         marginBottom: 20,

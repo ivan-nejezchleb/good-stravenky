@@ -1,4 +1,4 @@
-function getCombinationValue(combination) {
+export function getCombinationValue(combination) {
     return combination.reduce((result, part) => result = result + (part.count * part.value), 0);
 }
 
