@@ -16,13 +16,19 @@
     "title": "Nastavenia",
     "backButtonLabel": "Zpiet",
     "saveButtonTitle": "Uložiť",
-    "mealVouchersHeader": "Používané stravenky",
+    "mealVouchersHeader": "Stravenky",
+    "mealVouchersHelp": "Vložte až dva druhy hodnot stravenek.",
+    "resultsSortingHeader": "Řazení výsledků",
     "doneButton": "Hotovo",
-    "mealTicketValuePlaceholder": "hodnota stravenky",
-    "nextMealTicketValuePlaceholder": "ďalšia stravenka"
-  },
-  "slider": {
-    "cash": "Uprednostniť doplatok",
-    "tips": "Uprednostniť dýško"
+    "mealTicketValuePlaceholder": "první hodnota",
+    "anotherMealTicketValuePlaceholder": "další hodnota",
+    "sortingStrategy": {
+      "balanced": "Vyvážené",
+      "cash": "Uprednostniť doplatok",
+      "tips": "Uprednostniť dýško"
+    },
+    "creditsLabel": "O aplikaci",
+    "creditsContent": "VYrobeno s láskou během GoodData Hackaton 2018 Monikou Lalak, Ivanem Nejezchlebem a Petrem Dolejší v Brně.",
+    "creditsAcknowledgement": "Grafické ikony vyrobeny xxx."
   }
 }

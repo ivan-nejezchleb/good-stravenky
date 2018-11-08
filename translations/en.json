@@ -16,13 +16,19 @@
     "title": "Settings",
     "backButtonLabel": "Back",
     "saveButtonTitle": "Save",
-    "mealVouchersHeader": "Registered meal voucher values",
+    "mealVouchersHeader": "Meal vouchers",
+    "mealVouchersHelp": "Enter up to two meal voucher values.",
+    "resultsSortingHeader": "Results sorting",
     "doneButton": "Done",
-    "mealTicketValuePlaceholder": "meal voucher value",
-    "nextMealTicketValuePlaceholder": "next meal voucher value"
-  },
-  "slider": {
-    "cash": "Prefere Cash",
-    "tips": "Prefere Tip"
+    "mealTicketValuePlaceholder": "enter value",
+    "anotherMealTicketValuePlaceholder": "next value",
+    "sortingStrategy": {
+      "balanced": "Balanced",
+      "cash": "Prefer cash",
+      "tips": "Prefer tip"
+    },
+    "creditsLabel": "About application",
+    "creditsContent": "Made with love during GoodData Hackaton 2018 by Monika Lalak, Ivan Nejezchleb and Petr Dolejší in Brno, Czech Republic.",
+    "creditsAcknowledgement": "Graphic icons made by xxx."
   }
 }

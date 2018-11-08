@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { TextInput, FlatList, KeyboardAvoidingView, Button, StyleSheet, View, Text } from 'react-native';
+import { TextInput, ScrollView, View, Button, StyleSheet, Text } from 'react-native';
 
 import { v4 as uuid } from 'uuid';
 
@@ -9,42 +9,12 @@ import SettingsService from '../services/settingsService';
 import { SettingsContext } from '../context/settingsContext';
 
 import { MealVoucherItem } from '../components/MealVoucherItem';
-import { StrategySlider } from '../components/StrategySlider';
+import { ResultsSortingSettings } from '../components/ResultsSortingSettings';
 import Utils from '../utils/utils';
 
 const MAX_SUPPORTED_VALUES = 2;
 
-const styles = StyleSheet.create({
-    container: {
-        backgroundColor: '#fff'
-    },
-    headerContainer: {
-        textAlign: 'center'
-    },
-    bottomContainer: {
-        backgroundColor: '#fff'
-    },
-    valueInput: {
-        height: 50,
-        textAlign: 'right',
-        fontSize: 40,
-        borderWidth: 0,
-        marginRight: 20,
-        marginBottom: 20,
-        marginTop: 30,
-        color: '#778491'
-    },
-    header: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        paddingTop: 130,
-        color: '#778491',
-        textAlign: 'center'
-    },
-});
-
-export default class SettingsScreen extends React.Component {
-
+class SettingsScreen extends React.Component {
     static propTypes = {
         mealVouchers: PropTypes.array,
         strategyWeights: PropTypes.object
@@ -53,7 +23,7 @@ export default class SettingsScreen extends React.Component {
     static defaultProps = {
         triggerSave: false,
         mealVouchers: [],
-        setSettings: ()=>{},
+        setSettings: () => {},
         setShowWelcomeScreen: () => {},
         strategyWeights: {
             cash: 100,
@@ -119,7 +89,7 @@ export default class SettingsScreen extends React.Component {
         await SettingsService.saveSettings({ mealVouchers, strategyWeights });
         await SettingsService.toggleShowWelcomeScreen(false);
         // context sync
-        this.props.setSettings({ mealVouchers });
+        this.props.setSettings({ mealVouchers, strategyWeights });
         this.props.setShowWelcomeScreen(false); // will force new navigation
     }
 
@@ -140,10 +110,12 @@ export default class SettingsScreen extends React.Component {
     }
 
     renderMealVouchersInput() {
-        const placeholder = this.state.mealVouchers.length ? translate('settings.nextMealTicketValuePlaceholder') : translate('settings.mealTicketValuePlaceholder');
+        const placeholder = this.state.mealVouchers.length
+            ? translate('settings.anotherMealTicketValuePlaceholder')
+            : translate('settings.mealTicketValuePlaceholder');
         return (
             <TextInput
-                style={styles.valueInput}
+                style={styles.newVoucherValue}
                 onSubmitEditing={this.onValueConfirmed}
                 onChangeText={this.onValueChange}
                 value={this.state.text}
@@ -166,28 +138,40 @@ export default class SettingsScreen extends React.Component {
             strategyWeights
         } = this.state;
         return (
-            <KeyboardAvoidingView>
-                <View style={styles.container}>
-                    <View styel={styles.headerContainer}>
-                        <Text style={styles.header}>{translate('settings.mealVouchersHeader')}</Text>
+            <View style={styles.container}>
+                <ScrollView>
+                    <Text style={styles.header}>{translate('settings.mealVouchersHeader')}</Text>
+                    <Text style={styles.description}>{translate('settings.mealVouchersHelp')}</Text>
+                    <View style={styles.section}>
+                        {
+                            mealVouchers.map(item => (
+                                <MealVoucherItem
+                                    key={item.key}
+                                    item={item}
+                                    onDelete={this.onDelete}
+                                />
+                            ))
+                        }
+                        {
+                            this.showMealVouchersInput()
+                                ? this.renderMealVouchersInput()
+                                : null
+                        }
                     </View>
-                    <View style={styles.list}>
-                        <FlatList
-                            data={mealVouchers}
-                            renderItem={
-                                ({ item }) =>
-                                <MealVoucherItem item={item} onDelete={this.onDelete} />
-                            }
-                            />
+                    <Text style={styles.header}>{translate('settings.resultsSortingHeader')}</Text>
+                    <View style={styles.section}>
+                        <ResultsSortingSettings
+                            strategyWeights={strategyWeights}
+                            onValueChange={this.onStrategyChange}
+                        />
                     </View>
-                    {
-                        this.showMealVouchersInput() ?
-                        this.renderMealVouchersInput() :
-                        null
-                    }
-                    <StrategySlider strategyWeights={strategyWeights} onValueChange={this.onStrategyChange} />
-                </View>
-            </KeyboardAvoidingView>
+                    <Text style={styles.header}>{translate('settings.creditsLabel')}</Text>
+                    <View style={styles.section}>
+                        <Text style={styles.creditsItem}>{translate('settings.creditsContent')}</Text>
+                        <Text style={styles.creditsItem}>{translate('settings.creditsAcknowledgement')}</Text>
+                    </View>
+                </ScrollView>
+            </View>
         );
     }
 }
@@ -244,4 +228,46 @@ export class SettingsScreenConsumer extends React.Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        backgroundColor: '#F9FAFB'
+    },
+    header: {
+        fontSize: 20,
+        fontWeight: 'bold',
+        paddingTop: 30,
+        color: '#778491',
+        textAlign: 'center'
+    },
+    description: {
+        color: '#94a1ad',
+        marginBottom: 10,
+        textAlign: 'center'
+    },
+    section: {
+        marginTop: 40,
+        marginRight: 70,
+        marginLeft: 70,
+        marginBottom: 60
+    },
+    newVoucherValue: {
+        height: 50,
+        textAlign: 'right',
+        fontSize: 40,
+        borderBottomWidth: 2,
+        borderBottomColor: '#c9d5e0',
+        color: '#94a1ad',
+        paddingRight: 40
+    },
+    creditsItem: {
+        color: '#94a1ad',
+        marginBottom: 10,
+        textAlign: 'center'
+    }
+});
 
