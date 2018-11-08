@@ -14,6 +14,7 @@ Made with React Native with love during GoodData Hackaton 2018 by Monika Lalak, 
 * Test default locale detection
 * Application icon
 * Debounce save in Settings screen
+* Credit graphics authors
 
 ## New features
 * Welcome screen tutorial
@@ -21,14 +22,14 @@ Made with React Native with love during GoodData Hackaton 2018 by Monika Lalak, 
 * Warn about more than 5 meal vouchers in the payment option
 * Support up to five meal vouchers values
 * Displayed currency settings
+* Simple calculator to sum up parts of the meals together
 
 ## Refactoring
 * Split settingsContext into the navigationContext and settingsContext
 * Name of the screen routers to the constants
 * Do not repeat stylesheets blocks but define some shared stylesheet for them
+* Add proper prop types to all React components
 
-## Nice to have visual improvements
-* 3x pixel density graphics
-* Logo picture should be darker   
+## Nice to have visual improvements 
 * Use font from the design mockups 
  
