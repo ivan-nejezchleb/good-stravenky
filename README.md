@@ -10,31 +10,32 @@ Made with React Native with love during GoodData Hackaton 2018 by Monika Lalak, 
 * Style Main screen according to the designs
     * Style the screen
     * Solve issue with results scrolling
+    * Results must have unique keys (current key system is broken when same value is written out twice)
     * Main page should display button for calc or display keyboard right away (focus price input)
-* Style Settings screen according to the designs
-    * Debounce save in Settings screen
-    * Do not dismiss welcome screen upon ranking strategy selection
 * Show warning when invalid input was entered (2x voucher price + save with no voucher values) 
-* Test default locale detection
 * Ask Monca
     * Application icon
     * Check Slovak localization
     * Credit graphics authors
 
 ## Planned features
-* Welcome screen tutorial
+* Debounce save in Settings screen and then do not dismiss welcome screen upon ranking strategy selection
 * Choose locale in the settings, independent from the device locale
-* Warn about more than 5 meal vouchers in the result in the payment option
+* Settings of the displayed currency
+
+## Nice to have features
+* Welcome screen tutorial
+* Warn about more than 5 meal vouchers used in the result of the payment option
 * Support up to four meal vouchers values
-* DSettings of the displayed currency
 * Simple calculator to sum up parts of the meals together
 
 ## Refactoring
-* Split settingsContext into the navigationContext and settingsContext
+* Settings handling
+    * Split settingsContext into the navigationContext and settingsContext...
+    * ... or replace React Context with Redux
 * Name of the screen routers to the constants
 * Do not repeat stylesheets blocks but define some shared stylesheet for them
 * Add proper prop types to all React components (enable eslint rule once more)
-* Replace React Context with Redux?
 
 ## Nice to have visual improvements 
 * Use font from the design mockups 

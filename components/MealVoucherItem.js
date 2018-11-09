@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     value: {
         height: 50,
         textAlign: 'right',
-        fontSize: 40,
+        fontSize: 35,
         color: '#94a1ad',
         marginRight: 10
     },

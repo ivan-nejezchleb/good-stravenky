@@ -260,7 +260,7 @@ const styles = StyleSheet.create({
     newVoucherValue: {
         height: 50,
         textAlign: 'right',
-        fontSize: 40,
+        fontSize: 35,
         borderBottomWidth: 2,
         borderBottomColor: '#c9d5e0',
         color: '#94a1ad',
