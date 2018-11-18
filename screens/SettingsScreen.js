@@ -58,10 +58,15 @@ class SettingsScreen extends React.Component {
         });
     }
 
+    voucherValueIsUnique(value) {
+        const { mealVouchers } = this.state;
+        return mealVouchers.find(voucher => voucher.value === value) === undefined;
+    }
+
     onValueConfirmed() {
         const { text } = this.state;
 
-        if (!Utils.isValidMealVoucherValue(text)) {
+        if (!Utils.isValidMealVoucherValue(text) || !this.voucherValueIsUnique(text)) {
             this.setState({
                 text: ''
             });
@@ -82,6 +87,7 @@ class SettingsScreen extends React.Component {
 
     async onSave() {
         const { mealVouchers, strategyWeights } = this.state;
+
         if (mealVouchers.length === 0) {
             return; // TODO display some error to the user, do not fail silently
         }

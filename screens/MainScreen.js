@@ -102,8 +102,7 @@ export default class MainScreen extends React.Component {
 
     render() {
         const {
-            value,
-            strategyWeights
+            value
         } = this.state;
         const { navigate } = this.props.navigation;
         return (
@@ -127,6 +126,7 @@ export default class MainScreen extends React.Component {
                         returnKeyType="done"
                         placeholder={translate('main.lunchPriceValuePlaceholder')}
                         placeholderTextColor="#E2E7EC"
+                        autoFocus={true}
                     />
                 </View>
                 {this.renderResults()}

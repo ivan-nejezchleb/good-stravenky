@@ -6,31 +6,35 @@ import { getCombinationValue } from '../services/calculationService';
 const styles = StyleSheet.create({
     item: {
         padding: 20,
-        // borderBottomWidth: 2,
+        borderBottomWidth: 1,
         borderStyle: 'dashed',
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
     count: {
-        fontSize: 20,
-        color: '#778491',
-        fontWeight: 'bold'
+        color: '#778491'
     },
     total: {
-        fontSize: 20,
-        color: '#778491',
-        fontWeight: 'bold'
+        color: '#778491'
     },
     cash: {
-        fontSize: 20,
-        color: '#FF595E',
-        fontWeight: 'bold'
+        color: '#FF595E'
     },
     tips: {
-        fontSize: 20,
-        color: '#8ACB88',
-        fontWeight: 'bold'
+        color: '#8ACB88'
+    },
+    zero: {
+        color: '#778491'
+    },
+    value: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        textAlign: 'center'
+    },
+    description: {
+        color: '#CAD6E1',
+        textAlign: 'center'
     }
 });
 
@@ -45,23 +49,36 @@ export class CalculationResultSmall extends React.Component {
 
                 {item.combination
                     .map(part => (
-                        <View key={`${part.count} * ${part.value}`}>
-                            <Text style={styles.count}>{part.count}x</Text>
-                            <Text>{part.value}</Text>
+                        <View key={`${item.key}: ${part.count} * ${part.value}`}>
+                            {part.count === 0
+                                ? <Text style={[styles.count, styles.value]}>-</Text>
+                                : <Text style={[styles.count, styles.value]}>{part.count}x</Text>
+                            }
+                            <Text style={styles.description}>{part.value}</Text>
                         </View>
                     ))
                 }
                 <View>
-                    <Text style={styles.cash}>{item.cash}</Text>
-                    <Text>{translate('main.additionalCashLabel')}</Text>
+                    {
+                        item.cash === 0
+                            ? <Text style={[styles.zero, styles.value]}>-</Text>
+                            : <Text style={[styles.cash, styles.value]}>{item.cash}</Text>
+                    }
+                    <Text style={styles.description}>{translate('main.additionalCashLabel')}</Text>
                 </View>
                 <View>
-                    <Text style={styles.tips}>{item.tips}</Text>
-                    <Text>{translate('main.tipLabel')}</Text>
+                    {
+                        item.tips === 0
+                            ? <Text style={[styles.zero, styles.value]}>-</Text>
+                            : <Text style={[styles.tips, styles.value]}>{item.tips}</Text>
+                    }
+                    <Text style={styles.description}>{translate('main.tipLabel')}</Text>
                 </View>
                 <View>
-                    <Text style={styles.total}>{getCombinationValue(item.combination) + item.cash}</Text>
-                    <Text>{translate('main.totalPriceLabel')}</Text>
+                    <Text style={[styles.total, styles.value]}>
+                        {getCombinationValue(item.combination) + item.cash}
+                    </Text>
+                    <Text style={styles.description}>{translate('main.totalPriceLabel')}</Text>
                 </View>
             </View>
         );

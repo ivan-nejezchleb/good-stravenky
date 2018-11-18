@@ -10,8 +10,6 @@ Made with React Native with love during GoodData Hackaton 2018 by Monika Lalak, 
 * Style Main screen according to the designs
     * Style the screen
     * Solve issue with results scrolling
-    * Results must have unique keys (current key system is broken when same value is written out twice)
-    * Main page should display button for calc or display keyboard right away (focus price input)
 * Show warning when invalid input was entered (2x voucher price + save with no voucher values) 
 * Ask Monca
     * Application icon
